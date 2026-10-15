@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="fr" class="is-loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Los textos NO se escriben aquí: cada data-i18n="clave" se rellena desde i18n.js (es / fr / en) -->
+<title>Luis Rivas — Portfolio</title>
+<meta name="description" content="Portfolio de Luis Rivas, étudiant en BUT MMI à l’IUT de Chambéry : graphisme, web/UI, vidéo, motion design et drone. Recherche de stage du 12 avril au 16 juin 2027.">
+<meta name="theme-color" content="#0b0b0b">
+<!-- Para compartir en redes (al publicar el sitio: añadir og:url y og:image con la dirección completa) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Luis Rivas — Portfolio">
+<meta property="og:description" content="Graphisme, web/UI, vidéo, motion design et drone — étudiant en BUT MMI à l’IUT de Chambéry.">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Datos estructurados (schema.org) para Google y las IA: quién es Luis -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "#luis-rivas",
+      "name": "Luis Rivas",
+      "givenName": "Luis",
+      "familyName": "Rivas",
+      "jobTitle": "Étudiant en BUT MMI — graphisme, UI, vidéo, motion design et drone",
+      "nationality": { "@type": "Country", "name": "El Salvador" },
+      "email": "mailto:rivasluisfe2004@gmail.com",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "IUT de Chambéry — Université Savoie Mont Blanc",
+        "address": { "@type": "PostalAddress", "addressLocality": "Le Bourget-du-Lac", "addressCountry": "FR" }
+      },
+      "knowsLanguage": ["es", "fr", "en"],
+      "knowsAbout": ["Graphic design", "Visual identity", "UI design", "Figma", "Photoshop", "Illustrator", "After Effects", "Premiere Pro", "DaVinci Resolve", "Motion design", "TouchDesigner", "HTML", "CSS", "JavaScript", "PHP", "SQL", "Drone piloting", "360° photography"],
+      "sameAs": [
+        "https://www.instagram.com/rivas.luisfelipe/",
+        "https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "name": "Luis Rivas — Portfolio",
+      "inLanguage": ["fr", "es", "en"],
+      "author": { "@id": "#luis-rivas" }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script defer src="i18n.js"></script>
+<script defer src="projects.js"></script>
+<script defer src="common.js"></script>
+<script defer src="cans.js"></script>
+<script defer src="drone.js"></script>
+<script defer src="main.js"></script>
+<noscript><style>.loader{display:none} html.is-loading{overflow:auto}</style></noscript>
+</head>
+<body>
+
+<!-- Cortina de transición (cambio de página / idioma). Si venimos de otra página, nace tapando. -->
+<div class="curtain" aria-hidden="true"><span class="curtain-txt tag-font"></span></div>
+<script>try{var c=sessionStorage.getItem('curtain');if(c){document.documentElement.classList.add('is-switched');document.querySelector('.curtain-txt').textContent=c}}catch(e){}</script>
+
+<!-- Filtro "pintura": bordes irregulares para los brochazos verdes -->
+<svg class="defs" width="0" height="0" aria-hidden="true">
+  <filter id="rough">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="9"/>
+  </filter>
+</svg>
+
+<div class="loader" aria-hidden="true">
+  <svg class="loader-tag" viewBox="0 0 900 240"><text x="450" y="170" text-anchor="middle" data-i18n="loader.word"></text></svg>
+  <div class="loader-bar"><span></span></div>
+  <p class="mono loader-txt"><span data-i18n="loader.txt"></span> <span class="loader-pct">0</span>%</p>
+</div>
+
+<div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+<header class="nav">
+  <a class="nav-logo tag-font" href="#top" aria-label="Luis Rivas">luis rivas</a>
+  <a class="to-top" href="#top" data-top data-i18n-label="top.label">
+    <svg viewBox="0 0 24 40" aria-hidden="true"><rect class="tt-cap" x="7" y="1" width="10" height="7" rx="2"/><rect class="tt-body" x="4" y="8" width="16" height="30" rx="4"/><rect class="tt-band" x="4" y="14" width="16" height="17"/><path class="tt-arrow" d="M12 27V18M8.5 21.5 12 18l3.5 3.5"/></svg>
+  </a>
+  <nav>
+    <a href="#trabajo" data-i18n="nav.work"></a>
+    <a href="#sobre-mi" data-i18n="nav.about"></a>
+    <a href="#contacto" data-i18n="nav.contact"></a>
+  </nav>
+  <div class="lang" role="group" data-i18n-label="lang.label">
+    <button type="button" data-lang="es">es</button><button type="button" data-lang="fr">fr</button><button type="button" data-lang="en">en</button>
+  </div>
+  <p class="status mono"><i></i><span data-i18n="nav.status"></span></p>
+</header>
+
+<main>
+
+  <!-- ============ HERO: pared para pintar + latas 3D (una por disciplina) ============ -->
+  <section class="hero" id="top" data-cursor="spray" data-hud="hud.home">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <canvas class="hero-spray" aria-hidden="true"></canvas>
+
+    <div class="hero-meta mono"><span>(portfolio — 2026)</span><span data-i18n="hero.meta"></span></div>
+
+    <div class="hero-title">
+      <div class="hero-title-in">
+        <h1 class="hero-name"><span class="line"><span>luis</span></span><span class="line"><span>rivas</span></span></h1>
+        <span class="hero-tag tag-font" aria-hidden="true"><span data-i18n="hero.tag"></span><i></i><i></i><i></i></span>
+      </div>
+    </div>
+
+    <canvas class="hero-3d" aria-hidden="true"></canvas>
+
+    <div class="hero-hint" aria-hidden="true">
+      <span class="tag-font" data-i18n="hero.hint"></span>
+      <svg class="doodle" data-doodle="intro" viewBox="0 0 160 90">
+        <path d="M8 12 C 40 4, 92 10, 118 40 S 140 74, 146 80"/>
+        <path d="M126 78 L146 80 L143 60"/>
+      </svg>
+    </div>
+
+    <div class="hero-bottom">
+      <ul class="hero-cats">
+        <li><a href="#web" data-cursor=""><span class="mono">01</span><span data-i18n="cat.web"></span></a></li>
+        <li><a href="#grafico" data-cursor=""><span class="mono">02</span><span data-i18n="cat.grafico"></span></a></li>
+        <li><a href="#video" data-cursor=""><span class="mono">03</span><span data-i18n="cat.video"></span></a></li>
+        <li><a href="#dron" data-cursor=""><span class="mono">04</span><span data-i18n="cat.dron"></span></a></li>
+      </ul>
+      <p class="mono hero-scroll">scroll ↓<br><span data-i18n="hero.paint"></span></p>
+    </div>
+
+    <span class="sticker" aria-hidden="true" data-i18n="hero.sticker"></span>
+  </section>
+
+  <!-- Cintas cruzadas tipo "precinto" (el texto lo rellena main.js) -->
+  <div class="tapes" aria-hidden="true">
+    <div class="tape tape-b"><div class="tape-track" data-tape="tape.b"></div></div>
+    <div class="tape tape-a"><div class="tape-track" data-tape="tape.a"></div></div>
+  </div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="manifesto" data-hud="hud.intro">
+    <p class="mono label">(00) — intro</p>
+    <p class="manifesto-text" data-i18n="intro.text"></p>
+  </section>
+
+  <!-- ============ TRABAJO: un capítulo por disciplina, cada uno con su propio "mundo" ============ -->
+  <section class="work" id="trabajo">
+    <h2 class="big-title" data-i18n-label="work.title"><span class="outline" aria-hidden="true" data-i18n="work.title"></span><span aria-hidden="true" data-i18n="work.title"></span><span class="outline" aria-hidden="true" data-i18n="work.title"></span></h2>
+
+    <nav class="chapters mono" data-i18n-label="work.tabs">
+      <a href="#web"><b>01</b><span data-i18n="cat.web"></span><sup data-count="web"></sup></a>
+      <a href="#grafico"><b>02</b><span data-i18n="cat.grafico"></span><sup data-count="grafico"></sup></a>
+      <a href="#video"><b>03</b><span data-i18n="cat.video"></span><sup data-count="video"></sup></a>
+      <a href="#dron"><b>04</b><span data-i18n="cat.dron"></span><sup data-count="dron"></sup></a>
+    </nav>
+
+    <!-- 01 WEB — ventanas de navegador -->
+    <article class="chapter chapter-web" id="web" data-hud="hud.web">
+      <header class="chapter-head" data-reveal>
+        <span class="chapter-num" aria-hidden="true">01</span>
+        <h3 class="chapter-title" data-i18n="cat.web"></h3>
+        <p class="mono chapter-desc" data-i18n="ch.web"></p>
+      </header>
+      <div class="web-grid" data-projects="web"></div>
+    </article>
+
+    <!-- 02 GRÁFICO — pared de carteles (scroll horizontal en escritorio) -->
+    <article class="chapter chapter-graphic" id="grafico" data-hud="hud.grafico">
+      <div class="wall">
+        <span class="wall-tag tag-font" aria-hidden="true" data-i18n="cat.grafico"></span>
+        <div class="posters" data-projects="grafico">
+          <header class="chapter-head">
+            <span class="chapter-num" aria-hidden="true">02</span>
+            <h3 class="chapter-title" data-i18n="cat.grafico"></h3>
+            <p class="mono chapter-desc" data-i18n="ch.grafico"></p>
+          </header>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 VIDEO · MOTION — sala de edición + motion lab -->
+    <article class="chapter chapter-video" id="video" data-hud="hud.video">
+      <header class="chapter-head" data-reveal>
+        <span class="chapter-num" aria-hidden="true">03</span>
+        <h3 class="chapter-title"><span data-i18n="cat.video"></span><small> · motion</small></h3>
+        <p class="mono chapter-desc" data-i18n="ch.video"></p>
+      </header>
+      <div class="video-grid" data-projects="video"></div>
+
+      <div class="lab" id="motion">
+        <div class="cover-wrap" data-reveal>
+          <a class="cover" href="#" data-cursor="move">
+            <span class="cover-layer cl-sky" data-depth="-0.6"></span>
+            <span class="cover-layer cl-sun" data-depth="0.4"></span>
+            <span class="cover-layer cl-hills" data-depth="1"></span>
+            <span class="cover-layer cl-orb" data-depth="1.9"></span>
+            <span class="cover-layer cl-title" data-depth="2.5"><b data-i18n="lab.cover"></b><i class="mono">luis rivas — vol. 01</i></span>
+            <span class="cover-sticker mono">parallax ✦</span>
+          </a>
+        </div>
+        <div class="lab-text" data-reveal>
+          <p class="mono label" data-i18n="lab.label"></p>
+          <h4 class="lab-title"></h4>
+          <p class="lab-copy" data-i18n="lab.text"></p>
+          <p class="mono lab-tags"></p>
+          <p class="mono lab-hint" data-i18n="lab.hint"></p>
+          <a class="btn btn-ghost" href="#" data-i18n="lab.link"></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 DRON — pantalla FPV con el dron 3D + registro de vuelos -->
+    <article class="chapter chapter-drone" id="dron" data-hud="hud.dron">
+      <header class="chapter-head" data-reveal>
+        <span class="chapter-num" aria-hidden="true">04</span>
+        <h3 class="chapter-title" data-i18n="cat.dron"></h3>
+        <p class="mono chapter-desc" data-i18n="ch.dron"></p>
+      </header>
+      <div class="drone-stage">
+        <canvas class="drone-3d" aria-hidden="true"></canvas>
+        <div class="osd mono" aria-hidden="true">
+          <i class="osd-c tl"></i><i class="osd-c tr"></i><i class="osd-c bl"></i><i class="osd-c br"></i>
+          <div class="osd-row osd-top">
+            <span class="osd-rec"><i></i>rec<b data-osd="time">00:00</b></span>
+            <span>dji avata 360 · 8k</span>
+            <span>bat<b data-osd="bat">100</b>%</span>
+          </div>
+          <div class="osd-horizon"></div>
+          <div class="osd-cross"></div>
+          <div class="osd-side osd-left">alt<b data-osd="alt">000.0</b>m</div>
+          <div class="osd-side osd-right">spd<b data-osd="spd">00</b>km/h</div>
+          <div class="osd-row osd-bottom">
+            <span>13.6929° N · 89.2182° W</span>
+            <span class="osd-scroll" data-i18n="drone.scroll"></span>
+            <span data-i18n="drone.mode"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flights" data-projects="dron"></div>
+    </article>
+  </section>
+
+  <!-- ============ SOBRE MÍ — rejilla de líneas finas ============ -->
+  <section class="about" id="sobre-mi" data-hud="hud.about">
+    <h2 class="big-title" data-i18n-label="about.title"><span class="outline" aria-hidden="true" data-i18n="about.title"></span><span aria-hidden="true" data-i18n="about.title"></span><span class="outline" aria-hidden="true" data-i18n="about.title"></span></h2>
+    <div class="about-grid">
+      <div class="cell cell-photo" data-reveal>
+        <div class="chrome"><span class="mono" data-i18n="about.photo"></span></div>
+      </div>
+      <div class="cell cell-bio" data-reveal>
+        <p class="mono label" data-i18n="about.label"></p>
+        <p class="bio-lead" data-i18n="about.lead"></p>
+        <p class="bio" data-i18n="about.bio"></p>
+      </div>
+      <div class="cell cell-tools" data-reveal>
+        <p class="mono label" data-i18n="about.tools"></p>
+        <ul class="stickers">
+          <li data-cursor="drag">photoshop</li>
+          <li data-cursor="drag">illustrator</li>
+          <li data-cursor="drag">indesign</li>
+          <li data-cursor="drag">premiere pro</li>
+          <li data-cursor="drag">after effects</li>
+          <li data-cursor="drag">davinci resolve</li>
+          <li data-cursor="drag">figma</li>
+          <li data-cursor="drag">touchdesigner</li>
+          <li data-cursor="drag">dji studio</li>
+          <li data-cursor="drag">insta360 studio</li>
+          <li data-cursor="drag">vs code</li>
+          <li data-cursor="drag">html · css</li>
+          <li data-cursor="drag">javascript</li>
+          <li data-cursor="drag">php · sql</li>
+        </ul>
+      </div>
+      <div class="cell cell-skills" data-reveal>
+        <p class="mono label" data-i18n="about.skills"></p>
+        <ul class="skills">
+          <li data-i18n="skill.1"></li>
+          <li data-i18n="skill.2"></li>
+          <li data-i18n="skill.3"></li>
+          <li data-i18n="skill.4"></li>
+        </ul>
+      </div>
+      <dl class="cell cell-info mono" data-reveal>
+        <div><dt data-i18n="info.study"></dt><dd data-i18n="info.study.v"></dd></div>
+        <div><dt data-i18n="info.from"></dt><dd data-i18n="info.from.v"></dd></div>
+        <div><dt data-i18n="info.langs"></dt><dd>español · français · english</dd></div>
+        <div><dt data-i18n="info.seek"></dt><dd data-i18n="info.seek.v"></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS RÁPIDAS (también como datos FAQPage para Google y las IA) ============ -->
+  <section class="faq" id="faq" data-hud="faq.title">
+    <p class="mono label" data-i18n="faq.label"></p>
+    <h2 class="faq-title" data-i18n="faq.title"></h2>
+    <div class="faq-list">
+      <details data-reveal><summary data-i18n="faq.q1"></summary><p data-i18n="faq.a1"></p></details>
+      <details data-reveal><summary data-i18n="faq.q2"></summary><p data-i18n="faq.a2"></p></details>
+      <details data-reveal><summary data-i18n="faq.q3"></summary><p data-i18n="faq.a3"></p></details>
+      <details data-reveal><summary data-i18n="faq.q4"></summary><p data-i18n="faq.a4"></p></details>
+      <details data-reveal><summary data-i18n="faq.q5"></summary><p data-i18n="faq.a5"></p></details>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="contact" id="contacto" data-hud="hud.contact">
+    <p class="mono label" data-i18n="contact.label"></p>
+    <div class="contact-title-wrap">
+      <h2 class="contact-title" data-reveal data-i18n="contact.title"></h2>
+      <span class="contact-tag tag-font" aria-hidden="true" data-i18n="contact.tag"></span>
+    </div>
+    <p><a class="contact-mail" href="mailto:rivasluisfe2004@gmail.com" data-cursor="write">rivasluisfe2004@gmail.com</a></p>
+    <ul class="socials mono">
+      <li><a href="https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/" target="_blank" rel="noopener">linkedin ↗</a></li>
+      <li><a href="https://www.instagram.com/rivas.luisfelipe/" target="_blank" rel="noopener">instagram ↗</a></li>
+    </ul>
+    <a class="btn" href="#" data-i18n="contact.cv"></a>
+  </section>
+</main>
+
+<footer class="footer mono">
+  <span>© 2026 Luis Rivas</span>
+  <span data-i18n="footer.made"></span>
+  <a href="legal.html" data-i18n="footer.legal"></a>
+  <a href="#top" data-i18n="footer.top"></a>
+</footer>
+
+<!-- Velocímetro tipo Need for Speed: velocidad del scroll + progreso de la página -->
+<div class="hud" aria-hidden="true">
+  <svg viewBox="0 0 100 100"><circle class="hud-track" cx="50" cy="50" r="44"/><circle class="hud-prog" cx="50" cy="50" r="44"/></svg>
+  <p class="hud-num"><b>000</b><span>km/h</span></p>
+  <p class="hud-sec mono"></p>
+</div>
+
+</body>
+</html>

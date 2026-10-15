@@ -1,0 +1,45 @@
+# Luis Rivas — Portfolio
+
+> Luis Rivas est un étudiant salvadorien en BUT MMI (Métiers du Multimédia et de l’Internet), 2e année, à l’IUT de Chambéry (campus du Bourget-du-Lac, France). Profil pluridisciplinaire : graphisme, UI, web, vidéo, motion design et drone. Il recherche un stage de 2 mois du 12 avril au 16 juin 2027. Langues : espagnol (natif), français, anglais.
+
+Contact : rivasluisfe2004@gmail.com · LinkedIn : https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/ · Instagram : https://www.instagram.com/rivas.luisfelipe/
+
+Le site existe en trois langues : français (`?lang=fr`), espagnol (`?lang=es`) et anglais (`?lang=en`).
+
+## Compétences
+
+- Graphisme et identité visuelle : Illustrator, Photoshop
+- Design UI et maquettes : Figma
+- Web : HTML, CSS, JavaScript, PHP, SQL
+- Vidéo et motion design : Premiere Pro, After Effects, DaVinci Resolve
+- Installations interactives temps réel : TouchDesigner, MediaPipe
+- Drone et 360° : DJI Avata 360, DJI Studio, Insta360 Studio
+
+## Projets
+
+### Web / UI
+- [E-LLUSION — réservations](/project.html?p=reservas) : portail de réservation de l’exposition E-LLUSION (SAÉ 203), codes de réservation uniques, jauge par salle en temps réel, back-office CRUD. PHP, SQL, HTML, CSS, GitHub. Avec Quentin.
+- [Ifone](/project.html?p=ifone) : bannière publicitaire sur Photoshop et site du produit conçu sur Figma.
+- [Audit UX](/project.html?p=auditoria) : audit d’un site (SAÉ 101) — cibles, ergonomie, accessibilité, données d’usage, personas et recommandations.
+
+### Graphisme
+- [La Pistache d’Or](/project.html?p=pistache) : SAÉ 103, concours « Shiftopie : un lundi en 2050 » de The Shifters. Note d’intention (quoi, pourquoi, pour qui, où, comment, en quoi), concept « L’Or Vert du Rhône », naming, logo (Illustrator), affiche « Plaisir Intemporel » (photomontage Photoshop). Typographie propre en cours.
+- [E-LLUSION — affiche](/project.html?p=ellusion-cartel) et [identité](/project.html?p=ellusion-identidad) : exposition interactive « L’impact du numérique sur notre perception du réel », IUT de Chambéry, juin 2026.
+- [IMMERSION](/project.html?p=immersion) : identité de marque d’une listening bar (SAÉ 102) — étude de marché, positionnement, storytelling.
+
+### Vidéo et motion
+- [E-LLUSION — aftermovie](/project.html?p=aftermovie) : montage de l’aftermovie de toute l’exposition (12 œuvres, 4 salles), avec ses propres plans de drone.
+- [Distorsion](/project.html?p=distorsion) : installation interactive (SAÉ 202) qui scanne le visage du visiteur, le laisse déformer par le public et le publie sur un faux réseau social. Luis a programmé toute l’œuvre sur TouchDesigner (MediaPipe). Avec Mohamed et Alexandre.
+- [Pochettes animées](/project.html?p=portadas) : pochettes d’album animées en parallaxe (After Effects, Photoshop).
+
+### Drone
+- [Entrepôt — visite 360°](/project.html?p=almacen) : suivi de chantier en drone au Salvador.
+- [Cancún vu du ciel](/project.html?p=cancun) : vidéo, photos 360° navigables et recadrages, DJI Avata 360, août 2026.
+- [Isla Mujeres vue du ciel](/project.html?p=isla-mujeres) : photos 360° navigables, DJI Avata 360, août 2026.
+- [Plages du Salvador](/project.html?p=playas) : vols sur la côte salvadorienne.
+
+---
+
+**ES —** Luis Rivas, estudiante salvadoreño de BUT MMI en el IUT de Chambéry (Francia): diseño gráfico, UI, web, video, motion design y dron. Busca un stage de 2 meses del 12 de abril al 16 de junio de 2027.
+
+**EN —** Luis Rivas, a Salvadoran BUT MMI student at the IUT de Chambéry (France): graphic design, UI, web, video, motion design and drone. Looking for a 2-month internship from 12 April to 16 June 2027.

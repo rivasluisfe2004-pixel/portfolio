@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Plantilla de proyecto: el contenido sale de projects.js según ?p=id (ej. project.html?p=pistache) -->
+<title>Luis Rivas — Portfolio</title>
+<meta name="description" content="">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script defer src="i18n.js"></script>
+<script defer src="projects.js"></script>
+<script defer src="common.js"></script>
+<script defer src="pano.js"></script>
+<script defer src="project.js"></script>
+</head>
+<body class="page-case">
+
+<div class="curtain" aria-hidden="true"><span class="curtain-txt tag-font"></span></div>
+<script>try{var c=sessionStorage.getItem('curtain');if(c){document.documentElement.classList.add('is-switched');document.querySelector('.curtain-txt').textContent=c}}catch(e){}</script>
+
+<svg class="defs" width="0" height="0" aria-hidden="true">
+  <filter id="rough">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="9"/>
+  </filter>
+</svg>
+
+<div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+<header class="nav">
+  <a class="nav-logo tag-font" href="index.html" aria-label="Luis Rivas">luis rivas</a>
+  <a class="to-top" href="#" data-top data-i18n-label="top.label">
+    <svg viewBox="0 0 24 40" aria-hidden="true"><rect class="tt-cap" x="7" y="1" width="10" height="7" rx="2"/><rect class="tt-body" x="4" y="8" width="16" height="30" rx="4"/><rect class="tt-band" x="4" y="14" width="16" height="17"/><path class="tt-arrow" d="M12 27V18M8.5 21.5 12 18l3.5 3.5"/></svg>
+  </a>
+  <nav>
+    <a href="index.html#trabajo" data-i18n="nav.work"></a>
+    <a href="index.html#sobre-mi" data-i18n="nav.about"></a>
+    <a href="index.html#contacto" data-i18n="nav.contact"></a>
+  </nav>
+  <div class="lang" role="group" data-i18n-label="lang.label">
+    <button type="button" data-lang="es">es</button><button type="button" data-lang="fr">fr</button><button type="button" data-lang="en">en</button>
+  </div>
+  <p class="status mono"><i></i><span data-i18n="nav.status"></span></p>
+</header>
+
+<main class="case" id="case"></main>
+
+<footer class="footer mono">
+  <span>© 2026 Luis Rivas</span>
+  <span data-i18n="footer.made"></span>
+  <a href="legal.html" data-i18n="footer.legal"></a>
+  <a href="#" data-top data-i18n="footer.top"></a>
+</footer>
+
+</body>
+</html>
