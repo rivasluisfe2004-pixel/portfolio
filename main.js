@@ -211,6 +211,37 @@ function prepDoodles() {
   }
 }
 
+/* ---------- chorreones del tag «multimedia» ---------- */
+// Cada gota se pega bajo el trazo de una letra (l, i, d), medido sobre la fuente real:
+// así sale de la pintura y no del aire, sea cual sea el idioma o el tamaño de pantalla.
+function placeDrips() {
+  const tag = $('.hero-tag'), word = tag.firstElementChild, node = word?.firstChild;
+  if (!node) return;
+  const text = node.textContent;
+  const targets = [[text.indexOf('l'), 0.5], [text.indexOf('i'), 0.5], [text.lastIndexOf('d'), 0.8]];
+  const size = parseFloat(getComputedStyle(tag).fontSize);
+  const rot = tag.style.rotate;
+  tag.style.rotate = '0deg'; // medir sin la inclinación
+  const box = tag.getBoundingClientRect();
+  const mark = document.createElement('span');
+  mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+  word.append(mark);
+  const baseline = mark.getBoundingClientRect().top - box.top;
+  mark.remove();
+  const range = document.createRange();
+  $$('i', tag).forEach((drip, k) => {
+    const [idx, fx] = targets[k] || [];
+    if (idx == null || idx < 0) { drip.hidden = true; return; }
+    range.setStart(node, idx);
+    range.setEnd(node, idx + 1);
+    const r = range.getBoundingClientRect();
+    drip.style.left = `${r.left - box.left + r.width * fx - drip.offsetWidth / 2}px`;
+    drip.style.top = `${baseline - size * 0.14}px`; // empieza un poco dentro de la letra
+  });
+  tag.style.rotate = rot;
+}
+addEventListener('resize', placeDrips);
+
 /* ---------- intro del hero ---------- */
 function intro(cans, spray) {
   gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.3 } })
@@ -220,7 +251,7 @@ function intro(cans, spray) {
     .fromTo('.hero-tag',
       { clipPath: 'inset(-20% 100% -80% 0)' },
       { clipPath: 'inset(-20% 0% -80% 0)', duration: 0.8, ease: 'power2.inOut', clearProps: 'clipPath' }, 0.55)
-    .add(() => $('.hero-tag').classList.add('is-dripping'), 1.2)
+    .add(() => { placeDrips(); $('.hero-tag').classList.add('is-dripping'); }, 1.2)
     .add(() => scrollY < innerHeight / 2 && spray.swoosh($('.hero-name')), 0.7) // solo si el hero está a la vista
     .from('.hero-meta, .hero-bottom, .sticker, .hero-hint', { autoAlpha: 0, y: 16, stagger: 0.07, duration: 0.9 }, 0.7)
     .add(() => drawDoodle($('.hero-hint .doodle')), 1.1);
@@ -337,17 +368,20 @@ function initStickers() {
 // motion lab: portada en capas con parallax (con el mouse, o sola en bucle si nadie la toca)
 function initCover() {
   const cover = $('.cover');
-  const layers = $$('[data-depth]', cover).map(l => [
-    gsap.quickTo(l, 'x', { duration: 0.8, ease: 'power3' }),
-    gsap.quickTo(l, 'y', { duration: 0.8, ease: 'power3' }),
-    +l.dataset.depth,
-  ]);
-  const turnY = gsap.quickTo(cover, 'rotationY', { duration: 0.8, ease: 'power3' });
-  const turnX = gsap.quickTo(cover, 'rotationX', { duration: 0.8, ease: 'power3' });
+  // cada capa: se desplaza según su profundidad y, si está fuera del fondo, también avanza en Z (sale de la portada)
+  const layers = $$('[data-depth]', cover).map(l => {
+    const d = +l.dataset.depth, wrap = l.closest('.pop');
+    // la profundidad (Z) va en el envoltorio .pop: así las capas se ordenan bien en 3D aunque el
+    // envoltorio recorte (clip-path aplana lo que hay dentro, pero no a él mismo)
+    if (wrap) gsap.set(wrap, { z: d * 16 });
+    return [gsap.quickTo(l, 'x', { duration: 1, ease: 'power3' }), gsap.quickTo(l, 'y', { duration: 1, ease: 'power3' }), d * 11];
+  });
+  const turnY = gsap.quickTo(cover, 'rotationY', { duration: 1, ease: 'power3' });
+  const turnX = gsap.quickTo(cover, 'rotationX', { duration: 1, ease: 'power3' });
   const move = (nx, ny) => {
-    for (const [x, y, d] of layers) { x(nx * d * 18); y(ny * d * 18); }
-    turnY(nx * 12);
-    turnX(-ny * 12);
+    for (const [x, y, k] of layers) { x(nx * k); y(ny * k); }
+    turnY(nx * 9);
+    turnX(-ny * 7);
   };
   let hover = false, visible = false;
   cover.addEventListener('pointermove', e => {
@@ -357,7 +391,28 @@ function initCover() {
   });
   cover.addEventListener('pointerleave', () => (hover = false));
   new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(cover);
-  if (!reduce) gsap.ticker.add(time => { if (visible && !hover) move(Math.sin(time * 0.7) * 0.7, Math.cos(time * 0.5) * 0.5); });
+  if (!reduce) gsap.ticker.add(time => { if (visible && !hover) move(Math.sin(time * 0.6) * 0.85, Math.cos(time * 0.45) * 0.6); });
+
+  // brasas que suben del fuego y se escapan por arriba de la portada
+  const cv = $('.cl-embers', cover);
+  if (cv && !reduce) {
+    const g = cv.getContext('2d');
+    const sparks = Array.from({ length: 60 }, () => ({ x: Math.random(), y: 0.3 + Math.random() * 0.7, v: 0.025 + Math.random() * 0.05, r: 0.6 + Math.random() * 1.8, w: Math.random() * 6 }));
+    gsap.ticker.add((time, dt) => {
+      if (!visible) return;
+      const w = (cv.width = cv.clientWidth), h = (cv.height = cv.clientHeight);
+      g.globalCompositeOperation = 'lighter';
+      for (const p of sparks) {
+        p.y -= p.v * dt / 1000;
+        if (p.y < -0.02) { p.y = 0.75 + Math.random() * 0.25; p.x = 0.1 + Math.random() * 0.8; }
+        const a = Math.min(1, p.y * 2.2) * (0.5 + 0.5 * Math.sin(time * 6 + p.w));
+        g.fillStyle = `rgba(255, ${120 + (p.w * 15 | 0)}, 40, ${a * 0.9})`;
+        g.beginPath();
+        g.arc((p.x + Math.sin(time * 0.8 + p.w) * 0.015) * w, p.y * h, p.r, 0, Math.PI * 2);
+        g.fill();
+      }
+    });
+  }
 }
 
 // preguntas rápidas → datos estructurados FAQPage (Google y las IA), en el idioma actual

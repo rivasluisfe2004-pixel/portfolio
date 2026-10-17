@@ -1,10 +1,13 @@
-// Dron 3D estilo DJI Avata 360 — hecho con piezas simples de three.js (no hace falta modelo externo).
-// Despega con el scroll, gira solo, se inclina hacia el mouse y alimenta el OSD (pantalla FPV) de la sección.
+// Dron 3D: el modelo del DJI Avata 360 (assets/model/avata360.glb, cromado, hecho en Blender).
+// Despega con el scroll, gira solo, se inclina hacia el mouse, sus hélices giran y, de vez en cuando,
+// el gimbal pasa del modo 360° (objetivos arriba/abajo) al modo de un solo objetivo y vuelve.
+// Si el modelo no carga, se usa el dron sencillo hecho con piezas de three.js (buildDrone).
 (() => {
   const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js';
+  // necesita el importmap de index.html (resuelve 'three' a la misma URL que THREE_URL)
+  const LOADER_URL = 'https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/loaders/GLTFLoader.js';
   const ACID = '#c6ff3a';
   const GROUND = -0.95;           // altura de la plataforma
-  const LANDED = GROUND + 0.24;   // dron posado
   const HOVER = 0.1;              // dron en vuelo estacionario
   const TAU3 = (Math.PI * 2) / 3; // 120°, para las 3 palas
 
@@ -18,6 +21,7 @@
 
     const scene = new THREE.Scene();
     scene.environment = window.studioEnv(THREE, renderer);
+    scene.environmentIntensity = 1.6;
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
     camera.position.set(0, 1.35, 5.6);
     camera.lookAt(0, -0.2, 0);
@@ -31,7 +35,9 @@
     glow.position.set(0, GROUND + 0.1, 0);
     scene.add(key, back, glow);
 
-    const { drone, props, blurMat, gimbal } = buildDrone(THREE);
+    const built = await loadAvata(THREE).catch(err => { console.warn('Avata 360 .glb:', err); return null; }) ?? buildDrone(THREE);
+    const { drone, props, blurMat, gimbal } = built;
+    const LANDED = GROUND + built.lift; // dron posado sobre la plataforma
     scene.add(drone);
     const { pad, shadow } = buildPad(THREE);
     scene.add(pad, shadow);
@@ -51,6 +57,11 @@
     /* ---------- estado ---------- */
     let visible = false, flight = reduce ? 1 : 0, yaw = 0.6, roll = 0, pitch = 0, mx = 0, my = 0;
     let bat = 100, clock = 0, speed = 0;
+    // gimbal: 0 = modo 360° (como el dron real al grabar en 360), π/2 = un solo objetivo mirando al frente
+    const cam = { angle: 0 };
+    let flyTime = 0, nextSwap = 4, swapping = false;
+    // batería baja: a 15 % aterriza sola en la H, espera 10 s, «cambia la batería» y vuelve a despegar
+    const auto = { on: false, f: 1 };
     stage.addEventListener('pointermove', e => {
       const r = stage.getBoundingClientRect();
       mx = (e.clientX - r.left) / r.width * 2 - 1;
@@ -69,7 +80,7 @@
     gsap.ticker.add((time, dt) => {
       if (!visible) return;
       const s = dt / 1000;
-      const f = flight;
+      const f = auto.on ? Math.min(auto.f, flight) : flight;
       // girar sobre sí mismo (más rápido en el aire) e inclinarse hacia el mouse, como al volar
       if (!reduce) yaw += s * (0.18 + 0.4 * f);
       roll += (-mx * 0.35 * f - roll) * 0.06;
@@ -80,9 +91,14 @@
 
       // hélices: casi paradas en el suelo, a tope en el aire (y el disco borroso aparece)
       const spin = reduce ? 0 : 3 + 55 * Math.min(1, f * 2.5);
-      props.forEach((p, i) => (p.rotation.y += s * spin * (i % 3 ? 1 : -1)));
+      props.forEach((p, i) => (p.rotation.y += s * spin * (p.userData.dir ?? (i % 3 ? 1 : -1))));
       blurMat.opacity = 0.09 * Math.min(1, f * 2.5);
-      gimbal.rotation.x = reduce ? 0 : Math.sin(time * 0.8) * 0.25;
+      // en vuelo, cada ~8-13 s el gimbal cambia de modo y vuelve; además compensa el cabeceo (estabilización)
+      if (!reduce && f > 0.9 && !auto.on) {
+        flyTime += s;
+        if (!swapping && flyTime > nextSwap) swapLens();
+      }
+      gimbal.rotation.x = cam.angle - pitch;
 
       // sombra: más pequeña y suave cuanto más alto
       const h = drone.position.y - LANDED;
@@ -91,8 +107,8 @@
 
       // OSD
       clock += s;
-      if (!reduce) bat -= s * 0.2;
-      if (bat < 15) bat = 100; // "cambio de batería"
+      if (!reduce && !auto.on) bat -= s * 0.2;
+      if (bat < 15 && !auto.on) lowBattery();
       speed += (Math.min(Math.abs(site.lenis?.velocity ?? 0) * 4, 99) - speed) * 0.1;
       put('alt', (h * 12).toFixed(1).padStart(5, '0'));
       put('spd', String(Math.round(speed)).padStart(2, '0'));
@@ -103,6 +119,42 @@
       renderer.render(scene, camera);
     });
 
+    function setMode(single, force) {
+      if (auto.on && !force) return; // durante la batería baja manda el aviso, no el gimbal
+      put('mode', window.i18n.t(single ? 'drone.mode1' : 'drone.mode'));
+      put('res', single ? '4k' : '8k');
+      stage.classList.toggle('is-single', single);
+    }
+    // gira el gimbal al modo de un objetivo, se queda unos segundos y vuelve al modo 360°
+    let swapTl = null;
+    function swapLens() {
+      swapping = true;
+      swapTl = gsap.timeline({ onComplete: () => { swapping = false; nextSwap = flyTime + 8 + Math.random() * 5; } })
+        .to(cam, { angle: Math.PI / 2, duration: 1.8, ease: 'power3.inOut' })
+        .call(setMode, [true], 0.9)
+        .to(cam, { angle: 0, duration: 1.8, ease: 'power3.inOut' }, '+=3.4')
+        .call(setMode, [false], '-=0.9');
+    }
+
+    function lowBattery() {
+      auto.on = true;
+      auto.f = flight;
+      swapTl?.kill();
+      swapping = false;
+      stage.classList.remove('is-single');
+      put('res', '8k');
+      stage.classList.add('is-lowbat');
+      put('mode', window.i18n.t('drone.lowbat'));
+      gsap.timeline()
+        .to(cam, { angle: 0, duration: 0.8, ease: 'power2.out' })                      // gimbal a su posición
+        .to(auto, { f: 0, duration: 4, ease: 'power2.inOut' }, 0.6)                     // descenso suave hasta la H
+        .call(() => { stage.classList.remove('is-lowbat'); stage.classList.add('is-charging'); put('mode', window.i18n.t('drone.charging')); })
+        .to({}, { duration: 10 })                                                        // 10 s posado
+        .call(() => { bat = 100; stage.classList.remove('is-charging'); setMode(false, true); })
+        .to(auto, { f: 1, duration: 3, ease: 'power2.inOut' })                         // vuelve a despegar
+        .call(() => { auto.on = false; nextSwap = flyTime + 4; });
+    }
+
     const setFlight = p => {
       if (!reduce) flight = p;
       stage.classList.toggle('is-flying', flight > 0.9); // esconde el aviso "haz scroll para despegar"
@@ -111,7 +163,69 @@
     return { setFlight };
   };
 
-  /* ---------- el dron ---------- */
+  /* ---------- el dron: modelo .glb del Avata 360 ---------- */
+  // El .glb va dentro de assets/model/avata360.js (base64) para que funcione también con doble clic (file://).
+  async function loadAvata(THREE) {
+    if (!window.AVATA360_GLB) {
+      await new Promise((ok, ko) => {
+        const s = document.createElement('script');
+        s.src = 'assets/model/avata360.js';
+        s.onload = ok;
+        s.onerror = () => ko(new Error('no se pudo cargar assets/model/avata360.js'));
+        document.head.append(s);
+      });
+    }
+    const { GLTFLoader } = await import(LOADER_URL);
+    const bin = Uint8Array.from(atob(window.AVATA360_GLB), c => c.charCodeAt(0));
+    const model = (await new GLTFLoader().parseAsync(bin.buffer, '')).scene;
+
+    // mismo tamaño en pantalla que el dron anterior (el modelo viene en metros: 25 cm de ancho)
+    const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
+    model.scale.setScalar(1.95 / size.x);
+    const drone = new THREE.Group();
+    drone.rotation.order = 'YXZ'; // girar (yaw), luego cabecear (pitch) y alabear (roll)
+    drone.add(model);
+
+    // hélices: sentido de giro opuesto por parejas (como en el dron real) + disco borroso para la velocidad
+    const blurMat = new THREE.MeshBasicMaterial({ color: 0xdddddd, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+    const props = ['FL', 'FR', 'BL', 'BR'].map(k => {
+      const p = model.getObjectByName('prop_' + k);
+      p.userData.dir = k === 'FL' || k === 'BR' ? 1 : -1;
+      // radio real de las palas, medido vértice a vértice en el espacio de la hélice
+      // (una caja alineada a los ejes del mundo daba un radio de más y el disco asomaba fuera del aro)
+      let r = 0, y = 0, n = 0;
+      const v = new THREE.Vector3();
+      p.updateWorldMatrix(true, true);
+      const inv = p.matrixWorld.clone().invert();
+      p.traverse(o => {
+        const pos = o.geometry?.attributes?.position;
+        if (!pos) return;
+        for (let i = 0; i < pos.count; i++) {
+          v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld).applyMatrix4(inv);
+          r = Math.max(r, Math.hypot(v.x, v.z));
+          y += v.y; n++;
+        }
+      });
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(r * 0.97, 48), blurMat);
+      disc.rotation.x = -Math.PI / 2;
+      disc.position.y = n ? y / n : 0;
+      p.add(disc);
+      return p;
+    });
+    model.traverse(o => {
+      // LEDs en el verde del sitio, sin que el tone mapping los apague
+      if (o.material?.name === 'LED') {
+        o.material.toneMapped = false;
+        o.material.emissive?.set(ACID);
+      }
+      // cromo un pelín más satinado: reparte los reflejos y se lee plateado (como las latas), no negro
+      if (o.material?.name === 'Chrome') o.material.roughness = 0.2;
+    });
+    const lift = -new THREE.Box3().setFromObject(drone).min.y + 0.01;
+    return { drone, props, blurMat, gimbal: model.getObjectByName('gimbal'), lift };
+  }
+
+  /* ---------- dron de respaldo, hecho con piezas simples ---------- */
   function buildDrone(THREE) {
     const drone = new THREE.Group();
     drone.rotation.order = 'YXZ'; // girar (yaw), luego cabecear (pitch) y alabear (roll)
@@ -177,7 +291,7 @@
       add(gimbal, new THREE.TorusGeometry(0.072, 0.009, 8, 32), chrome, [0, dir * 0.12, 0], [Math.PI / 2, 0, 0]);
     }
 
-    return { drone, props, blurMat, gimbal };
+    return { drone, props, blurMat, gimbal, lift: 0.24 };
   }
 
   /* ---------- plataforma de aterrizaje (H) + sombra ---------- */

@@ -9,7 +9,10 @@
 //   cover    → ruta de la imagen real, ej. 'img/pistache.jpg' (cuando la tengas, sustituye al dibujo)
 //   title, kind, summary, context, role, team, tags
 //   sections → bloques de la página: h (título) + p (texto) · list · cards · quote/cite · stats · chips · gallery (nº de huecos)
-//              · video (ruta .mp4, o true = hueco) · panos (fotos 360°: [{ id, title }], ver tools/add-pano.sh)
+//              · video ({ src, poster, youtube } o true = hueco) · images ([{ src, alt }], fotos con visor)
+//              · compare ([{ before, after, alt }], antes/después con cortina arrastrable)
+//   software → programas usados, en el orden del proceso (ej. 'DJI Studio → Premiere Pro')
+//             · · panos (fotos 360°: [{ id, title }], ver tools/add-pano.sh)
 //   lab      → se muestra en el "motion lab" en vez de la rejilla de video
 //   soon     → tarjeta "próximamente" (sin página)
 
@@ -31,6 +34,7 @@ window.PROJECTS = [
     role: { es: 'desarrollo front + back', fr: 'développement front + back', en: 'front + back-end development' },
     team: { es: 'con Quentin', fr: 'avec Quentin', en: 'with Quentin' },
     tags: ['PHP', 'SQL', 'HTML', 'CSS', 'GitHub'],
+    software: 'VS Code · PHP · SQL · HTML/CSS · GitHub',
     sections: [
       { h: { es: 'El reto', fr: 'Le défi', en: 'The challenge' },
         p: { es: 'Crear el sistema de inscripción de E-LLUSION: gestionar la afluencia del público en las distintas salas de la exposición, de forma {{eficiente y segura}}.',
@@ -73,6 +77,7 @@ window.PROJECTS = [
     context: { es: 'Producción gráfica · BUT MMI', fr: 'Production graphique · BUT MMI', en: 'Graphic production · BUT MMI' },
     role: { es: 'banner, diseño UI y prototipo', fr: 'bannière, design UI et prototype', en: 'banner, UI design & prototype' },
     tags: ['Photoshop', 'Figma', 'UI'],
+    software: 'Photoshop → Figma',
     sections: [
       { h: { es: 'El banner', fr: 'La bannière', en: 'The banner' },
         p: { es: 'Una gran imagen publicitaria del producto, montada en Photoshop con las técnicas vistas en clase.',
@@ -98,6 +103,7 @@ window.PROJECTS = [
     context: 'SAÉ 101 · BUT MMI',
     role: { es: 'análisis y recomendaciones', fr: 'analyse et recommandations', en: 'analysis & recommendations' },
     tags: ['UX/UI', 'SEO', { es: 'accesibilidad', fr: 'accessibilité', en: 'accessibility' }, 'Analytics'],
+    software: { es: 'herramientas de analítica + IA', fr: 'outils d’analyse + IA', en: 'analytics tools + AI' },
     sections: [
       { h: { es: 'El método', fr: 'La méthode', en: 'The method' },
         list: [
@@ -129,6 +135,7 @@ window.PROJECTS = [
     context: { es: 'SAÉ 103 · concurso «Shiftopie: un lundi en 2050» · The Shifters', fr: 'SAÉ 103 · concours « Shiftopie : un lundi en 2050 » · The Shifters', en: 'SAÉ 103 · “Shiftopie: un lundi en 2050” contest · The Shifters' },
     role: { es: 'análisis, concepto, naming, logo y póster', fr: 'analyse, concept, naming, logo et affiche', en: 'analysis, concept, naming, logo & poster' },
     tags: ['Illustrator', 'Photoshop', 'Branding', { es: 'fotomontaje', fr: 'photomontage', en: 'photo compositing' }],
+    software: { es: 'Illustrator (logo) · Photoshop (póster)', fr: 'Illustrator (logo) · Photoshop (affiche)', en: 'Illustrator (logo) · Photoshop (poster)' },
     sections: [
       { h: { es: 'El encargo', fr: 'La commande', en: 'The brief' },
         p: { es: 'The Shifters es una asociación de voluntarios que trabaja por la transición baja en carbono de Francia y de Europa. Su concurso «Shiftopie», basado en el Plan de Transformación de la Economía Francesa (PTEF), pedía {{un cartel publicitario de 2050}}: un producto, un servicio o un estilo de vida en un mundo bajo en carbono, positivo y deseable.',
@@ -258,7 +265,7 @@ window.PROJECTS = [
 
   /* =================== 03 — VIDEO · MOTION =================== */
   {
-    id: 'aftermovie', cat: 'video', ph: 'v1',
+    id: 'aftermovie', cat: 'video', ph: 'v1', cover: 'assets/video/aftermovie-ellusion-poster.jpg',
     title: { es: 'E-LLUSION — aftermovie', fr: 'E-LLUSION — aftermovie', en: 'E-LLUSION — aftermovie' },
     kind: { es: 'montaje · toda la exposición', fr: 'montage · toute l’exposition', en: 'editing · the whole exhibition' },
     summary: {
@@ -267,10 +274,13 @@ window.PROJECTS = [
       en: 'The aftermovie of the whole E-LLUSION exhibition: all 12 works across 4 rooms, in a single edit.',
     },
     context: { es: 'SAÉ 202 · exposición E-LLUSION · 18–19 junio 2026', fr: 'SAÉ 202 · exposition E-LLUSION · 18–19 juin 2026', en: 'SAÉ 202 · E-LLUSION exhibition · 18–19 June 2026' },
-    role: { es: 'montaje + planos aéreos con mi dron', fr: 'montage + plans aériens avec mon drone', en: 'editing + aerial shots with my drone' },
-    team: { es: 'rodaje: Benjamin y Quentin', fr: 'tournage : Benjamin et Quentin', en: 'filming: Benjamin & Quentin' },
-    tags: [{ es: 'montaje', fr: 'montage', en: 'editing' }, { es: 'dron', fr: 'drone', en: 'drone' }, 'E-LLUSION'],
+    role: { es: 'realización y montaje', fr: 'réalisation et montage', en: 'direction & editing' },
+    team: { es: 'imágenes: Benjamin Renollet y Quentin Chillet · dron: Quentin Chillet', fr: 'images : Benjamin Renollet et Quentin Chillet · drone : Quentin Chillet', en: 'footage: Benjamin Renollet & Quentin Chillet · drone: Quentin Chillet' },
+    software: 'Premiere Pro',
+    tags: ['Premiere Pro', { es: 'montaje', fr: 'montage', en: 'editing' }, 'E-LLUSION'],
     sections: [
+      { h: { es: 'El video', fr: 'La vidéo', en: 'The video' },
+        video: { youtube: 'n-bVGKWTTiM', poster: 'assets/video/aftermovie-ellusion-poster.jpg' } },
       { h: { es: 'El reto', fr: 'Le défi', en: 'The challenge' },
         p: { es: 'Cada estudiante de la promo montó su propio aftermovie con las mismas imágenes del evento. El reto: {{que el mío se distinguiera}}, dando el mismo peso a las 12 obras.',
              fr: 'Chaque étudiant de la promo a monté son propre aftermovie à partir des mêmes images de l’événement. Le défi : {{que le mien se démarque}}, en donnant le même poids aux 12 œuvres.',
@@ -278,7 +288,13 @@ window.PROJECTS = [
       { h: { es: 'Las 4 salas', fr: 'Les 4 salles', en: 'The 4 rooms' },
         p: { es: 'El montaje recorre la exposición sala por sala.', fr: 'Le montage parcourt l’exposition salle par salle.', en: 'The edit walks through the exhibition room by room.' },
         chips: ['SOCIET-E', 'LA PÉPINIÈRE', 'HORIZON', 'L’ENVERS DU DÉCOR'] },
-      { gallery: 1 },
+      { h: { es: 'Créditos', fr: 'Crédits', en: 'Credits' },
+        list: [
+          { es: 'Realización y montaje: Luis Rivas', fr: 'Réalisation et montage : Luis Rivas', en: 'Direction & editing: Luis Rivas' },
+          { es: 'Imágenes: Benjamin Renollet y Quentin Chillet', fr: 'Images : Benjamin Renollet et Quentin Chillet', en: 'Footage: Benjamin Renollet & Quentin Chillet' },
+          { es: 'Dron: Quentin Chillet', fr: 'Drone : Quentin Chillet', en: 'Drone: Quentin Chillet' },
+          { es: 'Música: «Trap» — The_Mountain (Pixabay)', fr: 'Musique : « Trap » — The_Mountain (Pixabay)', en: 'Music: “Trap” — The_Mountain (Pixabay)' },
+        ] },
     ],
   },
   {
@@ -294,6 +310,7 @@ window.PROJECTS = [
     role: { es: 'programación de toda la obra en TouchDesigner', fr: 'programmation de toute l’œuvre sur TouchDesigner', en: 'programmed the whole piece in TouchDesigner' },
     team: { es: 'con Mohamed y Alexandre', fr: 'avec Mohamed et Alexandre', en: 'with Mohamed & Alexandre' },
     tags: ['TouchDesigner', 'MediaPipe', 'face tracking'],
+    software: 'TouchDesigner + MediaPipe',
     sections: [
       { h: { es: 'La demanda', fr: 'La demande', en: 'The brief' },
         p: { es: 'E-LLUSION pedía obras que exploraran cómo el entorno digital altera la realidad y, sobre todo, {{la percepción de uno mismo}}.',
@@ -320,7 +337,7 @@ window.PROJECTS = [
     ],
   },
   {
-    id: 'portadas', cat: 'video', ph: 'v3', lab: true,
+    id: 'portadas', cat: 'video', ph: 'v3', lab: true, cover: 'assets/img/sayonara/portada.jpg',
     title: { es: 'Portadas animadas', fr: 'Pochettes animées', en: 'Animated covers' },
     kind: { es: 'motion design · parallax', fr: 'motion design · parallaxe', en: 'motion design · parallax' },
     summary: {
@@ -331,6 +348,7 @@ window.PROJECTS = [
     context: { es: 'proyecto personal · en curso', fr: 'projet perso · en cours', en: 'personal project · ongoing' },
     role: { es: 'todo el proceso', fr: 'tout le process', en: 'the whole process' },
     tags: ['After Effects', 'Photoshop', 'Motion'],
+    software: 'Photoshop → After Effects',
     sections: [
       { h: { es: 'El proceso', fr: 'Le process', en: 'The process' },
         list: [
@@ -347,34 +365,67 @@ window.PROJECTS = [
 
   /* =================== 04 — DRON =================== */
   {
-    id: 'almacen', cat: 'dron', ph: 'd1', badge: '360°',
+    id: 'almacen', cat: 'dron', ph: 'd1', cover: 'assets/img/almacen/frente-patio-despues.jpg',
     place: { es: 'El Salvador', fr: 'Salvador', en: 'El Salvador' },
-    title: { es: 'Almacén — recorrido 360°', fr: 'Entrepôt — visite 360°', en: 'Warehouse — 360° tour' },
-    kind: { es: 'seguimiento de obra', fr: 'suivi de chantier', en: 'construction progress' },
+    title: { es: 'Almacén — vuelo de obra', fr: 'Entrepôt — vol de chantier', en: 'Warehouse — site flight' },
+    kind: { es: 'video + fotos retocadas · seguimiento de obra', fr: 'vidéo + photos retouchées · suivi de chantier', en: 'video + retouched photos · construction progress' },
     summary: {
-      es: 'Un recorrido con dron por un almacén construido por mi padre, para mostrar a los dueños del proyecto cómo avanzaba la obra.',
-      fr: 'Une visite en drone d’un entrepôt construit par mon père, pour montrer aux propriétaires l’avancée du chantier.',
-      en: 'A drone tour of a warehouse built by my father, showing the owners how construction was progressing.',
+      es: 'Un vuelo de dron sobre un almacén construido por mi padre en El Salvador, para mostrar a los dueños del proyecto cómo avanzaba la obra: un video y fotos limpiadas en Photoshop.',
+      fr: 'Un vol de drone au-dessus d’un entrepôt construit par mon père au Salvador, pour montrer aux propriétaires l’avancée du chantier : une vidéo et des photos nettoyées sur Photoshop.',
+      en: 'A drone flight over a warehouse built by my father in El Salvador, showing the owners how construction was progressing: a video and photos cleaned up in Photoshop.',
     },
-    context: { es: 'proyecto personal · El Salvador · 2026', fr: 'projet perso · Salvador · 2026', en: 'personal project · El Salvador · 2026' },
-    role: { es: 'piloto, captura y edición', fr: 'pilote, prise de vue et montage', en: 'pilot, capture & editing' },
-    tags: ['DJI Avata 360', 'Insta360 Studio', 'DJI Studio', 'Photoshop'],
+    context: { es: 'proyecto personal · El Salvador · agosto 2026', fr: 'projet perso · Salvador · août 2026', en: 'personal project · El Salvador · August 2026' },
+    role: { es: 'piloto, captura, montaje y retoque', fr: 'pilote, prise de vue, montage et retouche', en: 'pilot, capture, editing & retouching' },
+    tags: ['DJI Avata 360', 'DJI Studio', 'Premiere Pro', 'After Effects', 'Insta360 Studio', 'Photoshop'],
+    software: { es: 'video: DJI Studio (reencuadre 360°) → Premiere Pro + After Effects (logo 3D) · fotos: Insta360 Studio → Photoshop', fr: 'vidéo : DJI Studio (recadrage 360°) → Premiere Pro + After Effects (logo 3D) · photos : Insta360 Studio → Photoshop', en: 'video: DJI Studio (360° reframing) → Premiere Pro + After Effects (3D logo) · photos: Insta360 Studio → Photoshop' },
     sections: [
+      { h: { es: 'El video', fr: 'La vidéo', en: 'The video' },
+        video: { youtube: '9SL_oxE2EZE', poster: 'assets/img/almacen/frente-patio-despues.jpg' } },
       { h: { es: 'El encargo', fr: 'La demande', en: 'The brief' },
-        p: { es: 'Los dueños del proyecto necesitaban ver el avance de la construcción sin estar allí. La solución: {{un recorrido aéreo en 360°}}.',
-             fr: 'Les propriétaires devaient suivre l’avancée du chantier sans être sur place. La solution : {{une visite aérienne à 360°}}.',
-             en: 'The owners needed to follow construction without being on site. The solution: {{a 360° aerial tour}}.' } },
-      { h: { es: 'El proceso', fr: 'Le process', en: 'The process' },
-        list: [
-          { es: 'Vuelo y captura en 360° con el DJI Avata 360.', fr: 'Vol et captation à 360° avec le DJI Avata 360.', en: 'Flight and 360° capture with the DJI Avata 360.' },
-          { es: 'Fotos 360° reencuadradas en Insta360 Studio y retocadas en Photoshop.', fr: 'Photos 360° recadrées dans Insta360 Studio puis retouchées sur Photoshop.', en: '360° photos reframed in Insta360 Studio, then retouched in Photoshop.' },
-          { es: 'Videos 360° reencuadrados y editados en DJI Studio.', fr: 'Vidéos 360° recadrées et montées dans DJI Studio.', en: '360° videos reframed and edited in DJI Studio.' },
+        p: { es: 'Los dueños del proyecto necesitaban ver el avance de la construcción sin estar allí. La solución: {{un vuelo de dron}} alrededor de todo el almacén, en video y en fotos.',
+             fr: 'Les propriétaires devaient suivre l’avancée du chantier sans être sur place. La solution : {{un vol de drone}} autour de tout l’entrepôt, en vidéo et en photos.',
+             en: 'The owners needed to follow construction without being on site. The solution: {{a drone flight}} all around the warehouse, on video and in photos.' } },
+      { h: { es: 'Antes / después', fr: 'Avant / après', en: 'Before / after' },
+        p: { es: 'Cuando volé, la obra aún no estaba terminada. Reencuadré cada foto en Insta360 Studio y después {{borré en Photoshop}} materiales, máquinas, vehículos y personas para mostrar el almacén terminado. Arrastra la línea para comparar.',
+             fr: 'Lors du vol, le chantier n’était pas encore fini. J’ai recadré chaque photo dans Insta360 Studio, puis {{effacé sur Photoshop}} matériaux, engins, véhicules et personnes pour montrer l’entrepôt terminé. Faites glisser la ligne pour comparer.',
+             en: 'When I flew, the site wasn’t finished yet. I reframed each photo in Insta360 Studio, then {{removed in Photoshop}} materials, machines, vehicles and people to show the finished warehouse. Drag the line to compare.' },
+        compare: [
+          { before: 'assets/img/almacen/frente-patio-antes.jpg', after: 'assets/img/almacen/frente-patio-despues.jpg', alt: { es: 'Fachada con el patio', fr: 'Façade avec la cour', en: 'Front with the yard' } },
+          { before: 'assets/img/almacen/patio-antes.jpg', after: 'assets/img/almacen/patio-despues.jpg', alt: { es: 'El patio de carga', fr: 'La cour de chargement', en: 'The loading yard' } },
+          { before: 'assets/img/almacen/lateral-izq-antes.jpg', after: 'assets/img/almacen/lateral-izq-despues.jpg', alt: { es: 'Vista lateral izquierda', fr: 'Vue latérale gauche', en: 'Left side view' } },
+          { before: 'assets/img/almacen/lateral-antes.jpg', after: 'assets/img/almacen/lateral-despues.jpg', alt: { es: 'Vista lateral frontal', fr: 'Vue latérale avant', en: 'Front side view' } },
+          { before: 'assets/img/almacen/baja-antes.jpg', after: 'assets/img/almacen/baja-despues.jpg', alt: { es: 'Vista baja de los andenes', fr: 'Vue basse des quais', en: 'Low view of the docks' } },
+          { before: 'assets/img/almacen/cenital-antes.jpg', after: 'assets/img/almacen/cenital-despues.jpg', alt: { es: 'Vista cenital', fr: 'Vue zénithale', en: 'Top-down view' } },
         ] },
-      { gallery: 3 },
+      { h: { es: 'Más vistas', fr: 'Autres vues', en: 'More views' },
+        p: { es: 'Fotos reencuadradas en Insta360 Studio, sin retoque.', fr: 'Photos recadrées dans Insta360 Studio, sans retouche.', en: 'Photos reframed in Insta360 Studio, no retouching.' },
+        images: [
+          { src: 'assets/img/almacen/frente.jpg', alt: { es: 'Fachada principal', fr: 'Façade principale', en: 'Main front' } },
+          { src: 'assets/img/almacen/lateralfrente-izq.jpg', alt: { es: 'Fachada y lateral izquierdo', fr: 'Façade et côté gauche', en: 'Front and left side' } },
+          { src: 'assets/img/almacen/arriba.jpg', alt: { es: 'Vista desde arriba', fr: 'Vue du dessus', en: 'View from above' } },
+          { src: 'assets/img/almacen/atras.jpg', alt: { es: 'Parte trasera', fr: 'Arrière', en: 'Back' } },
+          { src: 'assets/img/almacen/atras-lateral.jpg', alt: { es: 'Trasera y lateral', fr: 'Arrière et côté', en: 'Back and side' } },
+          { src: 'assets/img/almacen/patio.jpg', alt: { es: 'El patio', fr: 'La cour', en: 'The yard' } },
+          { src: 'assets/img/almacen/solopatio.jpg', alt: { es: 'Solo el patio', fr: 'La cour seule', en: 'The yard alone' } },
+        ] },
+      { h: { es: 'De noche', fr: 'De nuit', en: 'At night' },
+        p: { es: 'El mismo almacén iluminado de noche.', fr: 'Le même entrepôt éclairé de nuit.', en: 'The same warehouse lit up at night.' },
+        images: [
+          { src: 'assets/img/almacen/noche-frenteconpatio.jpg', alt: { es: 'Fachada y patio de noche', fr: 'Façade et cour de nuit', en: 'Front and yard at night' } },
+          { src: 'assets/img/almacen/noche-frente.jpg', alt: { es: 'Fachada de noche', fr: 'Façade de nuit', en: 'Front at night' } },
+          { src: 'assets/img/almacen/noche-frentealtoconpatio.jpg', alt: { es: 'Vista alta de noche', fr: 'Vue haute de nuit', en: 'High view at night' } },
+          { src: 'assets/img/almacen/noche-lateralfrente.jpg', alt: { es: 'Lateral de noche', fr: 'Côté de nuit', en: 'Side at night' } },
+          { src: 'assets/img/almacen/noche-lateralfrenteconpatio.jpg', alt: { es: 'Lateral y patio de noche', fr: 'Côté et cour de nuit', en: 'Side and yard at night' } },
+        ] },
+      { h: { es: 'Créditos', fr: 'Crédits', en: 'Credits' },
+        list: [
+          { es: 'Vuelo, montaje y retoque: Luis Rivas', fr: 'Vol, montage et retouche : Luis Rivas', en: 'Flight, editing & retouching: Luis Rivas' },
+          { es: 'Música: «Talent in the Air» — Diego Nava (Mixkit)', fr: 'Musique : « Talent in the Air » — Diego Nava (Mixkit)', en: 'Music: “Talent in the Air” — Diego Nava (Mixkit)' },
+        ] },
     ],
   },
   {
-    id: 'cancun', cat: 'dron', ph: 'd2', badge: '360°',
+    id: 'cancun', cat: 'dron', ph: 'd2', badge: '360°', cover: 'assets/img/cancun/cancun-zona-hotelera-playa.jpg',
     place: { es: 'México', fr: 'Mexique', en: 'Mexico' },
     title: { es: 'Cancún desde el aire', fr: 'Cancún vu du ciel', en: 'Cancún from above' },
     kind: { es: 'video · fotos 360° · reencuadres', fr: 'vidéo · photos 360° · recadrages', en: 'video · 360° photos · reframes' },
@@ -385,7 +436,8 @@ window.PROJECTS = [
     },
     context: { es: 'proyecto personal · México · agosto 2026', fr: 'projet perso · Mexique · août 2026', en: 'personal project · Mexico · August 2026' },
     role: { es: 'piloto, captura y edición', fr: 'pilote, prise de vue et montage', en: 'pilot, capture & editing' },
-    tags: ['DJI Avata 360', 'DJI Studio', 'Insta360 Studio'],
+    tags: ['DJI Avata 360', 'DJI Studio', 'Insta360 Studio', 'Premiere Pro'],
+    software: { es: 'video: DJI Studio (reencuadre 360°) → Premiere Pro · fotos: Insta360 Studio', fr: 'vidéo : DJI Studio (recadrage 360°) → Premiere Pro · photos : Insta360 Studio', en: 'video: DJI Studio (360° reframing) → Premiere Pro · photos: Insta360 Studio' },
     sections: [
       { h: { es: 'El video', fr: 'La vidéo', en: 'The video' }, video: true },
       { h: { es: 'Fotos 360°', fr: 'Photos 360°', en: '360° photos' },
@@ -399,12 +451,24 @@ window.PROJECTS = [
           { id: 'cancun-04', title: { es: 'zona hotelera 04 · 07.08.2026', fr: 'zone hôtelière 04 · 07.08.2026', en: 'hotel zone 04 · 07.08.2026' } },
         ] },
       { h: { es: 'Fotos reencuadradas', fr: 'Photos recadrées', en: 'Reframed shots' },
-        p: { es: 'La misma esfera, reencuadrada como una foto clásica.', fr: 'La même sphère, recadrée comme une photo classique.', en: 'The same sphere, reframed as a classic photo.' },
-        gallery: 3 },
+        p: { es: 'La misma esfera, reencuadrada en Insta360 Studio como una foto clásica. Haz clic para verlas en grande.', fr: 'La même sphère, recadrée dans Insta360 Studio comme une photo classique. Cliquez pour les agrandir.', en: 'The same sphere, reframed in Insta360 Studio as a classic photo. Click to enlarge.' },
+        images: [
+          { src: 'assets/img/cancun/cancun-zona-hotelera-playa.jpg', alt: { es: 'Zona hotelera a lo largo de la playa', fr: 'Zone hôtelière le long de la plage', en: 'Hotel zone along the beach' } },
+          { src: 'assets/img/cancun/cancun-hotel-piscina-cenital.jpg', alt: { es: 'Vista cenital de un hotel con piscina junto a la laguna', fr: 'Vue zénithale d’un hôtel avec piscine au bord de la lagune', en: 'Top-down view of a hotel and pool by the lagoon' } },
+          { src: 'assets/img/cancun/cancun-playa-costa-sol.jpg', alt: { es: 'Playa y costa bajo el sol', fr: 'Plage et côte sous le soleil', en: 'Beach and coastline in the sun' } },
+          { src: 'assets/img/cancun/cancun-tiny-planet-laguna.jpg', alt: { es: 'Tiny planet de la laguna', fr: 'Tiny planet de la lagune', en: 'Tiny planet of the lagoon' } },
+          { src: 'assets/img/cancun/cancun-hoteles-bahia.jpg', alt: { es: 'Hoteles y bahía de la zona hotelera', fr: 'Hôtels et baie de la zone hôtelière', en: 'Hotels and bay of the hotel zone' } },
+          { src: 'assets/img/cancun/cancun-laguna-torre.jpg', alt: { es: 'Torre de hotel frente a la laguna', fr: 'Tour d’hôtel face à la lagune', en: 'Hotel tower facing the lagoon' } },
+          { src: 'assets/img/cancun/cancun-zona-hotelera-mar.jpg', alt: { es: 'Zona hotelera y mar Caribe', fr: 'Zone hôtelière et mer des Caraïbes', en: 'Hotel zone and Caribbean Sea' } },
+          { src: 'assets/img/cancun/cancun-laguna-villas.jpg', alt: { es: 'Villas a orillas de la laguna', fr: 'Villas au bord de la lagune', en: 'Villas on the lagoon shore' } },
+          { src: 'assets/img/cancun/cancun-playa-hoteles.jpg', alt: { es: 'Playa frente a los hoteles', fr: 'Plage devant les hôtels', en: 'Beach in front of the hotels' } },
+          { src: 'assets/img/cancun/cancun-tiny-planet-playa.jpg', alt: { es: 'Tiny planet de la playa', fr: 'Tiny planet de la plage', en: 'Tiny planet of the beach' } },
+          { src: 'assets/img/cancun/cancun-laguna-zona-hotelera.jpg', alt: { es: 'La laguna con la zona hotelera al fondo', fr: 'La lagune avec la zone hôtelière au loin', en: 'The lagoon with the hotel zone behind' } },
+        ] },
     ],
   },
   {
-    id: 'isla-mujeres', cat: 'dron', ph: 'd3', badge: '360°',
+    id: 'isla-mujeres', cat: 'dron', ph: 'd3', badge: '360°', cover: 'assets/video/isla-mujeres-poster.jpg',
     place: { es: 'México', fr: 'Mexique', en: 'Mexico' },
     title: { es: 'Isla Mujeres desde el aire', fr: 'Isla Mujeres vue du ciel', en: 'Isla Mujeres from above' },
     kind: { es: 'video · fotos 360° · reencuadres', fr: 'vidéo · photos 360° · recadrages', en: 'video · 360° photos · reframes' },
@@ -415,9 +479,16 @@ window.PROJECTS = [
     },
     context: { es: 'proyecto personal · México · agosto 2026', fr: 'projet perso · Mexique · août 2026', en: 'personal project · Mexico · August 2026' },
     role: { es: 'piloto, captura y edición', fr: 'pilote, prise de vue et montage', en: 'pilot, capture & editing' },
-    tags: ['DJI Avata 360', 'DJI Studio', 'Insta360 Studio'],
+    tags: ['DJI Avata 360', 'DJI Studio', 'Insta360 Studio', 'Premiere Pro'],
+    software: { es: 'video: DJI Studio (reencuadre 360°) → Premiere Pro · fotos: Insta360 Studio', fr: 'vidéo : DJI Studio (recadrage 360°) → Premiere Pro · photos : Insta360 Studio', en: 'video: DJI Studio (360° reframing) → Premiere Pro · photos: Insta360 Studio' },
     sections: [
-      { h: { es: 'El video', fr: 'La vidéo', en: 'The video' }, video: true },
+      { h: { es: 'El video', fr: 'La vidéo', en: 'The video' },
+        video: { youtube: 'm6zQG5D6q14', poster: 'assets/video/isla-mujeres-poster.jpg' } },
+      { h: { es: 'El video en 360°', fr: 'La vidéo à 360°', en: 'The 360° video' },
+        p: { es: 'El mismo vuelo sin reencuadrar, en 360° y 8K: {{mira hacia donde quieras}} arrastrando el video, o moviendo el teléfono.',
+             fr: 'Le même vol sans recadrage, à 360° et en 8K : {{regardez où vous voulez}} en faisant glisser la vidéo, ou en bougeant votre téléphone.',
+             en: 'The same flight, unreframed, in 360° and 8K: {{look wherever you want}} by dragging the video, or moving your phone.' },
+        video: { youtube: 'Bd1DXp5QtRc', poster: 'assets/img/isla-mujeres/isla-mujeres-playa-norte-01.jpg' } },
       { h: { es: 'Fotos 360°', fr: 'Photos 360°', en: '360° photos' },
         p: { es: 'Haz clic en el planeta para {{entrar en la foto}}: arrastra para mirar, rueda para el zoom y prueba el modo tiny planet.',
              fr: 'Cliquez sur la planète pour {{entrer dans la photo}} : glissez pour regarder, molette pour zoomer, et essayez le mode tiny planet.',
@@ -427,8 +498,11 @@ window.PROJECTS = [
           { id: 'isla-02', title: { es: 'isla mujeres 02 · agosto 2026', fr: 'isla mujeres 02 · août 2026', en: 'isla mujeres 02 · August 2026' } },
         ] },
       { h: { es: 'Fotos reencuadradas', fr: 'Photos recadrées', en: 'Reframed shots' },
-        p: { es: 'La misma esfera, reencuadrada como una foto clásica.', fr: 'La même sphère, recadrée comme une photo classique.', en: 'The same sphere, reframed as a classic photo.' },
-        gallery: 3 },
+        p: { es: 'La misma esfera, reencuadrada en Insta360 Studio como una foto clásica. Haz clic para verlas en grande.', fr: 'La même sphère, recadrée dans Insta360 Studio comme une photo classique. Cliquez pour les agrandir.', en: 'The same sphere, reframed in Insta360 Studio as a classic photo. Click to enlarge.' },
+        images: [
+          { src: 'assets/img/isla-mujeres/isla-mujeres-playa-norte-01.jpg', alt: { es: 'Playa Norte y su muelle', fr: 'Playa Norte et sa jetée', en: 'Playa Norte and its pier' } },
+          { src: 'assets/img/isla-mujeres/isla-mujeres-lanchas-turquesa.jpg', alt: { es: 'Lanchas sobre el agua turquesa', fr: 'Bateaux sur l’eau turquoise', en: 'Boats on turquoise water' } },
+        ] },
     ],
   },
   {
@@ -444,6 +518,7 @@ window.PROJECTS = [
     context: { es: 'proyecto personal · El Salvador', fr: 'projet perso · Salvador', en: 'personal project · El Salvador' },
     role: { es: 'piloto y edición', fr: 'pilote et montage', en: 'pilot & editing' },
     tags: ['DJI Avata 360', 'DJI Studio'],
+    software: { es: 'video: DJI Studio (reencuadre 360°) → Premiere Pro · fotos: Insta360 Studio', fr: 'vidéo : DJI Studio (recadrage 360°) → Premiere Pro · photos : Insta360 Studio', en: 'video: DJI Studio (360° reframing) → Premiere Pro · photos: Insta360 Studio' },
     sections: [{ more: true }, { gallery: 2 }],
   },
   {

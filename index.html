@@ -7,6 +7,9 @@
 <title>Luis Rivas — Portfolio</title>
 <meta name="description" content="Portfolio de Luis Rivas, étudiant en BUT MMI à l’IUT de Chambéry : graphisme, web/UI, vidéo, motion design et drone. Recherche de stage du 12 avril au 16 juin 2027.">
 <meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!-- Para compartir en redes (al publicar el sitio: añadir og:url y og:image con la dirección completa) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Luis Rivas — Portfolio">
@@ -38,7 +41,8 @@
       "knowsAbout": ["Graphic design", "Visual identity", "UI design", "Figma", "Photoshop", "Illustrator", "After Effects", "Premiere Pro", "DaVinci Resolve", "Motion design", "TouchDesigner", "HTML", "CSS", "JavaScript", "PHP", "SQL", "Drone piloting", "360° photography"],
       "sameAs": [
         "https://www.instagram.com/rivas.luisfelipe/",
-        "https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/"
+        "https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/",
+        "https://www.youtube.com/@LuisRIVAS04"
       ]
     },
     {
@@ -52,6 +56,8 @@
 </script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
+<!-- 'three' para los módulos que lo importan por nombre (el cargador del modelo 3D del dron) -->
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" } }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
@@ -199,12 +205,24 @@
       <div class="lab" id="motion">
         <div class="cover-wrap" data-reveal>
           <a class="cover" href="#" data-cursor="move">
-            <span class="cover-layer cl-sky" data-depth="-0.6"></span>
-            <span class="cover-layer cl-sun" data-depth="0.4"></span>
-            <span class="cover-layer cl-hills" data-depth="1"></span>
-            <span class="cover-layer cl-orb" data-depth="1.9"></span>
-            <span class="cover-layer cl-title" data-depth="2.5"><b data-i18n="lab.cover"></b><i class="mono">luis rivas — vol. 01</i></span>
+            <!-- Sayonara v2: el fondo se queda dentro del cuadro y las capas salen de él (parallax + profundidad 3D).
+                 Las piezas cortadas en el borde de la imagen (rocas, edificio) solo salen por sus lados no cortados. -->
+            <span class="cover-frame" data-i18n-label="lab.alt" role="img">
+              <img class="cover-layer cl-bg" src="assets/img/sayonara/fondo.jpg" alt="" data-depth="-0.3" draggable="false">
+            </span>
+            <span class="cover-pops" aria-hidden="true">
+              <span class="pop"><img class="cover-layer cl-cohete" src="assets/img/sayonara/cohete.webp" alt="" style="left:75.47%;top:8.37%;width:6.3%" data-depth="0.15" draggable="false"></span>
+              <span class="pop pop-cut" style="clip-path: inset(-60% 0 -60% -60%)"><img class="cover-layer cl-edificio" src="assets/img/sayonara/edificio.webp" alt="" style="left:69.17%;top:20.9%;width:30.83%" data-depth="0.45" draggable="false"></span>
+              <span class="pop"><img class="cover-layer cl-cabeza" src="assets/img/sayonara/cabeza.webp" alt="" style="left:13.17%;top:43.83%;width:23.63%" data-depth="0.3" draggable="false"></span>
+              <span class="pop pop-cut" style="clip-path: inset(-60% -60% 0 0)"><img class="cover-layer cl-roca-izquierda" src="assets/img/sayonara/roca-izquierda.webp" alt="" style="left:0%;top:42.5%;width:41.57%" data-depth="1" draggable="false"></span>
+              <span class="pop"><img class="cover-layer cl-juguete" src="assets/img/sayonara/juguete.webp" alt="" style="left:9.17%;top:72.1%;width:25.53%" data-depth="1" draggable="false"></span>
+              <span class="pop"><img class="cover-layer cl-cabeza-rosa" src="assets/img/sayonara/cabeza-rosa.webp" alt="" style="left:55.37%;top:55.83%;width:21.3%" data-depth="0.5" draggable="false"></span>
+              <span class="pop pop-cut" style="clip-path: inset(-60% 0 0 -60%)"><img class="cover-layer cl-roca-derecha" src="assets/img/sayonara/roca-derecha.webp" alt="" style="left:58.77%;top:51.83%;width:41.23%" data-depth="1" draggable="false"></span>
+              <span class="pop"><img class="cover-layer cl-personaje" src="assets/img/sayonara/personaje.webp" alt="" style="left:44.33%;top:51%;width:15.43%" data-depth="0.95" draggable="false"></span>
+              <canvas class="cl-embers" aria-hidden="true"></canvas>
+            </span>
             <span class="cover-sticker mono">parallax ✦</span>
+            <span class="cover-cap mono">sayonara · parallax</span>
           </a>
         </div>
         <div class="lab-text" data-reveal>
@@ -231,7 +249,7 @@
           <i class="osd-c tl"></i><i class="osd-c tr"></i><i class="osd-c bl"></i><i class="osd-c br"></i>
           <div class="osd-row osd-top">
             <span class="osd-rec"><i></i>rec<b data-osd="time">00:00</b></span>
-            <span>dji avata 360 · 8k</span>
+            <span>dji avata 360 · <b data-osd="res">8k</b></span>
             <span>bat<b data-osd="bat">100</b>%</span>
           </div>
           <div class="osd-horizon"></div>
@@ -241,7 +259,7 @@
           <div class="osd-row osd-bottom">
             <span>13.6929° N · 89.2182° W</span>
             <span class="osd-scroll" data-i18n="drone.scroll"></span>
-            <span data-i18n="drone.mode"></span>
+            <span class="osd-mode" data-osd="mode" data-i18n="drone.mode"></span>
           </div>
         </div>
       </div>
@@ -322,6 +340,7 @@
     <ul class="socials mono">
       <li><a href="https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/" target="_blank" rel="noopener">linkedin ↗</a></li>
       <li><a href="https://www.instagram.com/rivas.luisfelipe/" target="_blank" rel="noopener">instagram ↗</a></li>
+      <li><a href="https://www.youtube.com/@LuisRIVAS04" target="_blank" rel="noopener">youtube ↗</a></li>
     </ul>
     <a class="btn" href="#" data-i18n="contact.cv"></a>
   </section>

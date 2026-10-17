@@ -557,37 +557,25 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
 .cover-wrap { perspective: 1000px; }
 .cover { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 6px; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); }
-.cover-layer { position: absolute; inset: -8%; pointer-events: none; }
-.cl-sky { background: linear-gradient(180deg, #0b0b0b 0%, #1a2608 55%, #3a4f10 100%); }
-.cl-sun {
-  inset: auto;
-  left: 31%;
-  top: 20%;
-  width: 38%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #f4ffd0, var(--acid) 45%, #7fa81e 100%);
-  box-shadow: 0 0 80px rgba(198, 255, 58, 0.55);
+.cover { touch-action: pan-y; }
+/* v2: la portada ya no recorta — solo el fondo vive dentro del cuadro; las capas salen y flotan delante */
+.cover.cover { overflow: visible; box-shadow: none; transform-style: preserve-3d; }
+.cover-frame { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: 6px; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); }
+.cover-pops { position: absolute; inset: 0; display: block; transform-style: preserve-3d; pointer-events: none; }
+.pop { position: absolute; inset: 0; display: block; transform-style: preserve-3d; }
+.cover-layer { position: absolute; height: auto; pointer-events: none; user-select: none; will-change: transform; }
+.pop .cover-layer { filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.4)); }
+.cl-bg { inset: -6%; width: 112%; height: 112%; object-fit: cover; }
+/* las brasas suben por encima del cuadro */
+.cl-embers { position: absolute; left: -8%; right: -8%; top: -30%; bottom: 0; width: 116%; height: 130%; pointer-events: none; }
+/* el cohete da vueltas y se escapa un poco del cuadro */
+.cl-cohete { animation: orbit 9s ease-in-out infinite; }
+@keyframes orbit {
+  25% { translate: 22px -30px; rotate: 6deg; }
+  50% { translate: 50px -10px; rotate: -4deg; }
+  75% { translate: 18px 6px; rotate: 3deg; }
 }
-.cl-hills {
-  top: auto;
-  height: 58%;
-  background: #101010;
-  clip-path: polygon(0 45%, 12% 30%, 26% 48%, 40% 18%, 55% 44%, 68% 26%, 82% 46%, 100% 22%, 100% 100%, 0 100%);
-}
-.cl-orb {
-  inset: auto;
-  right: 9%;
-  bottom: 9%;
-  width: 30%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff 0 8%, #cfcfcf 18%, #3a3a3a 45%, #0d0d0d 70%, #8a8a8a 100%);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-}
-.cl-title { inset: auto; left: 7%; top: 7%; display: grid; gap: 8px; }
-.cl-title b { font: 900 clamp(24px, 3.2vw, 50px)/0.9 var(--display); letter-spacing: -0.05em; color: var(--ink); }
-.cl-title i { font-style: normal; color: var(--acid); }
+.cover-cap { position: absolute; z-index: 5; left: 5%; top: 5%; padding: 4px 9px; border-radius: 4px; background: rgba(11, 11, 11, 0.65); color: var(--ink); transform: translateZ(1px); }
 .cover-sticker { position: absolute; z-index: 5; right: 6%; top: 6%; padding: 6px 10px; border-radius: 4px; background: var(--acid); color: var(--on-acid); rotate: 8deg; }
 .lab-title { margin-bottom: 20px; font: 900 clamp(34px, 4.6vw, 72px)/0.9 var(--display); letter-spacing: -0.05em; }
 .lab-copy { max-width: 46ch; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.5; color: var(--ink-2); }
@@ -644,6 +632,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .flight-no { left: 38px; top: 12px; }
 .flight-badge { right: 38px; top: 10px; padding: 2px 8px; border-radius: 999px; background: var(--acid); color: var(--on-acid); }
 .flight-loc { left: 38px; bottom: 12px; color: var(--acid); }
+/* sobre una foto real: etiquetas con fondo para que se lean */
+.flight-frame img ~ .flight-no, .flight-frame img ~ .flight-loc { padding: 2px 8px; border-radius: 4px; background: rgba(11, 11, 11, 0.7); }
 .flight-soon .flight-frame {
   display: grid;
   place-content: center;
@@ -1008,6 +998,64 @@ html.pano-open { overflow: hidden; }
 .pano-hd { position: absolute; right: calc(var(--gutter) + 20px); bottom: 34px; color: var(--muted); opacity: 0; transition: opacity 0.4s; }
 .pano-viewer.is-loading-hd .pano-hd { opacity: 1; }
 
+/* ---------- software del proyecto (fila destacada) ---------- */
+.case-meta .case-sw { grid-column: 1 / -1; padding-top: 14px; border-top: 1px dashed var(--line); }
+.case-meta .case-sw dd { color: var(--acid); }
+.case-hero > .case-video { margin-top: 0; }
+
+/* ---------- fotos reencuadradas + visor ---------- */
+.case-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; margin-top: 28px; }
+.case-photo { position: relative; display: block; padding: 0; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-2); cursor: zoom-in; transition: border-color 0.4s; }
+.case-photo:first-child { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
+.case-photo img { width: 100%; height: 100%; object-fit: cover; transition: scale 0.9s var(--ease); }
+.case-photo:hover, .case-photo:focus-visible { border-color: var(--acid); }
+.case-photo:hover img { scale: 1.05; }
+.lightbox { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 70px 70px 80px; background: rgba(5, 5, 5, 0.94); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0s 0.4s; }
+.lightbox.is-open { opacity: 1; visibility: visible; transition: opacity 0.35s; }
+.lb-img { max-width: 100%; max-height: 100%; border-radius: 6px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); scale: 0.96; transition: scale 0.5s var(--ease); }
+.lightbox.is-open .lb-img { scale: 1; }
+.lb-cap { position: absolute; left: 50%; bottom: 26px; translate: -50% 0; max-width: calc(100% - 32px); text-align: center; color: var(--ink-2); }
+.lb-nav { position: absolute; top: 50%; translate: 0 -50%; width: 52px; height: 52px; border: 1px solid var(--line); border-radius: 50%; background: rgba(11, 11, 11, 0.6); color: var(--ink); font-size: 18px; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.lb-nav:hover, .lb-nav:focus-visible { background: var(--acid); border-color: var(--acid); color: var(--on-acid); }
+.lb-prev { left: 12px; }
+.lb-next { right: 12px; }
+
+/* ---------- dron: cambio de modo del gimbal ---------- */
+.osd-mode { padding: 2px 8px; border-radius: 999px; transition: background 0.4s, color 0.4s; }
+.is-single .osd-mode { background: var(--acid); color: var(--on-acid); text-shadow: none; }
+
+/* ---------- antes / después ---------- */
+.compare-list { display: grid; gap: 22px; margin-top: 28px; }
+.compare { position: relative; margin: 0; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); cursor: ew-resize; touch-action: pan-y; user-select: none; }
+.compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.compare-after { clip-path: inset(0 0 0 var(--pos)); }
+.compare-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; margin-left: -1.5px; background: var(--acid); box-shadow: 0 0 14px rgba(198, 255, 58, 0.7); pointer-events: none; }
+.compare-line i { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 54px; height: 54px; translate: -50% -50%; border-radius: 50%; background: var(--acid); color: var(--on-acid); font-size: 26px; font-style: normal; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); transition: scale 0.3s var(--ease); }
+.compare:hover .compare-line i, .compare.is-drag .compare-line i { scale: 1.12; }
+.compare-tag { position: absolute; top: 14px; padding: 4px 10px; border-radius: 999px; background: rgba(11, 11, 11, 0.7); text-transform: uppercase; pointer-events: none; }
+.compare-tag-b { left: 14px; }
+.compare-tag-a { right: 14px; background: var(--acid); color: var(--on-acid); }
+.compare figcaption { position: absolute; left: 14px; bottom: 12px; padding: 3px 9px; border-radius: 4px; background: rgba(11, 11, 11, 0.7); pointer-events: none; }
+.compare-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.compare-range:focus-visible + figcaption, .compare:focus-within { outline: 2px solid var(--acid); outline-offset: 3px; }
+
+/* ---------- video de YouTube (se carga al pulsar) ---------- */
+.yt { position: relative; overflow: hidden; background: #000; }
+.yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-play { position: absolute; inset: 0; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.yt-play img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.4s; }
+.yt-play:hover img { opacity: 1; }
+.yt-play:hover .play { scale: 1.15; background: var(--acid); }
+.yt-play:hover .play::after { border-left-color: var(--on-acid); }
+.yt-note { position: absolute; right: 14px; top: 12px; padding: 3px 9px; border-radius: 999px; background: rgba(11, 11, 11, 0.7); color: var(--ink); }
+.yt-link { display: inline-block; margin-top: 12px; color: var(--acid); }
+.yt-link:hover { text-decoration: underline; }
+
+/* ---------- dron: batería baja ---------- */
+.is-lowbat [data-osd="bat"], .is-lowbat .osd-mode { color: #ff4d4d; animation: blink 0.6s steps(2) infinite; }
+.is-lowbat .osd-mode { background: rgba(255, 77, 77, 0.15); }
+.is-charging .osd-mode { background: var(--acid); color: var(--on-acid); }
+
 /* ---------- pantallas medianas ---------- */
 @media (max-width: 1180px) {
   .status { display: none; }
@@ -1050,6 +1098,9 @@ html.pano-open { overflow: hidden; }
   .pano-bar { bottom: 24px; flex-direction: column; gap: 8px; }
   .pano-hint { bottom: 120px; }
   .pano-hd { display: none; }
+  .lightbox { padding: 60px 12px 90px; }
+  .lb-nav { top: auto; bottom: 64px; translate: none; width: 44px; height: 44px; }
+  .case-photo:first-child { aspect-ratio: 16 / 9; }
 }
 
 @media (prefers-reduced-motion: reduce) {

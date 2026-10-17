@@ -2,7 +2,7 @@
 
 > Luis Rivas est un étudiant salvadorien en BUT MMI (Métiers du Multimédia et de l’Internet), 2e année, à l’IUT de Chambéry (campus du Bourget-du-Lac, France). Profil pluridisciplinaire : graphisme, UI, web, vidéo, motion design et drone. Il recherche un stage de 2 mois du 12 avril au 16 juin 2027. Langues : espagnol (natif), français, anglais.
 
-Contact : rivasluisfe2004@gmail.com · LinkedIn : https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/ · Instagram : https://www.instagram.com/rivas.luisfelipe/
+Contact : rivasluisfe2004@gmail.com · LinkedIn : https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/ · Instagram : https://www.instagram.com/rivas.luisfelipe/ · YouTube : https://www.youtube.com/@LuisRIVAS04
 
 Le site existe en trois langues : français (`?lang=fr`), espagnol (`?lang=es`) et anglais (`?lang=en`).
 
@@ -28,14 +28,14 @@ Le site existe en trois langues : français (`?lang=fr`), espagnol (`?lang=es`) 
 - [IMMERSION](/project.html?p=immersion) : identité de marque d’une listening bar (SAÉ 102) — étude de marché, positionnement, storytelling.
 
 ### Vidéo et motion
-- [E-LLUSION — aftermovie](/project.html?p=aftermovie) : montage de l’aftermovie de toute l’exposition (12 œuvres, 4 salles), avec ses propres plans de drone.
+- [E-LLUSION — aftermovie](/project.html?p=aftermovie) : réalisation et montage (Premiere Pro) de l’aftermovie de toute l’exposition (12 œuvres, 4 salles). Images : Benjamin Renollet et Quentin Chillet ; drone : Quentin Chillet.
 - [Distorsion](/project.html?p=distorsion) : installation interactive (SAÉ 202) qui scanne le visage du visiteur, le laisse déformer par le public et le publie sur un faux réseau social. Luis a programmé toute l’œuvre sur TouchDesigner (MediaPipe). Avec Mohamed et Alexandre.
 - [Pochettes animées](/project.html?p=portadas) : pochettes d’album animées en parallaxe (After Effects, Photoshop).
 
 ### Drone
-- [Entrepôt — visite 360°](/project.html?p=almacen) : suivi de chantier en drone au Salvador.
-- [Cancún vu du ciel](/project.html?p=cancun) : vidéo, photos 360° navigables et recadrages, DJI Avata 360, août 2026.
-- [Isla Mujeres vue du ciel](/project.html?p=isla-mujeres) : photos 360° navigables, DJI Avata 360, août 2026.
+- [Entrepôt — vol de chantier](/project.html?p=almacen) : suivi de chantier en drone au Salvador (entrepôt construit par son père) — vidéo (DJI Studio → Premiere Pro, logo 3D After Effects), photos recadrées dans Insta360 Studio et retouchées sur Photoshop (comparateur avant/après : matériaux, engins et personnes effacés), vues de nuit.
+- [Cancún vu du ciel](/project.html?p=cancun) : photos 360° navigables et photos recadrées (Insta360 Studio), DJI Avata 360, août 2026.
+- [Isla Mujeres vue du ciel](/project.html?p=isla-mujeres) : vidéo (DJI Studio → Premiere Pro), photos 360° navigables et photos recadrées (Insta360 Studio), DJI Avata 360, août 2026.
 - [Plages du Salvador](/project.html?p=playas) : vols sur la côte salvadorienne.
 
 ---
