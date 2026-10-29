@@ -390,7 +390,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
 }
-.chapter-num { font: 900 clamp(64px, 9vw, 150px)/0.78 var(--display); letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 1.5px var(--acid); }
+.chapter-num { font: 900 clamp(64px, 9vw, 150px)/0.78 var(--display); letter-spacing: -0.05em; color: var(--acid); }
 .chapter-title { font: 900 clamp(40px, 6vw, 96px)/0.85 var(--display); letter-spacing: -0.05em; }
 .chapter-title small { font-size: 0.4em; letter-spacing: -0.02em; color: var(--acid); }
 .chapter-desc { color: var(--muted); text-align: right; }
@@ -448,8 +448,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   pointer-events: none;
 }
 .posters { position: relative; display: flex; align-items: center; gap: clamp(28px, 4vw, 72px); width: max-content; padding: 0 var(--gutter); }
-.posters .chapter-head { display: block; width: min(80vw, 460px); margin: 0; padding: 0; border: 0; }
-.posters .chapter-desc { margin-top: 20px; text-align: left; }
+.posters .chapter-head { display: block; flex: none; width: max-content; min-width: min(80vw, 460px); margin: 0; padding: 0; border: 0; }
+.posters .chapter-desc { max-width: 460px; margin-top: 20px; text-align: left; }
 .poster {
   position: relative;
   flex: none;
@@ -834,9 +834,9 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .case-quote { margin-top: 32px; }
 .case-quote p { font: 400 clamp(26px, 3.6vw, 52px)/1.15 var(--tag); color: var(--acid); rotate: -2deg; text-shadow: 0 0 18px rgba(198, 255, 58, 0.35); }
 .case-quote cite { display: block; margin-top: 16px; font-style: normal; color: var(--muted); }
-.case-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px; }
+.case-stats { container-type: inline-size; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px; }
 .case-stats div { padding-top: 16px; border-top: 2px solid var(--acid); }
-.case-stats b { display: block; margin-bottom: 6px; font: 900 clamp(22px, 2.3vw, 36px)/1 var(--display); letter-spacing: -0.04em; }
+.case-stats b { display: block; margin-bottom: 6px; font: 900 clamp(18px, calc(2.4cqi - 2px), 36px)/1 var(--display); letter-spacing: -0.04em; }
 .case-stats span { color: var(--muted); }
 .case-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .case-chips li { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; }
@@ -1002,6 +1002,8 @@ html.pano-open { overflow: hidden; }
 .case-meta .case-sw { grid-column: 1 / -1; padding-top: 14px; border-top: 1px dashed var(--line); }
 .case-meta .case-sw dd { color: var(--acid); }
 .case-hero > .case-video { margin-top: 0; }
+/* video propio: respeta su formato (vertical, cuadrado…) y queda centrado */
+video.case-video { display: block; width: auto; max-width: 100%; max-height: 85vh; aspect-ratio: auto; margin-inline: auto; }
 
 /* ---------- fotos reencuadradas + visor ---------- */
 .case-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; margin-top: 28px; }
@@ -1010,6 +1012,11 @@ html.pano-open { overflow: hidden; }
 .case-photo img { width: 100%; height: 100%; object-fit: cover; transition: scale 0.9s var(--ease); }
 .case-photo:hover, .case-photo:focus-visible { border-color: var(--acid); }
 .case-photo:hover img { scale: 1.05; }
+/* fullPhotos: la imagen entera, sin recorte ni zoom (láminas, especímenes) */
+.case-photos.full { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: start; }
+.case-photos.full .case-photo, .case-photos.full .case-photo:first-child { grid-column: auto; aspect-ratio: auto; }
+.case-photos.full .case-photo img { height: auto; object-fit: contain; }
+.case-photos.full .case-photo:hover img { scale: 1; }
 .lightbox { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 70px 70px 80px; background: rgba(5, 5, 5, 0.94); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0s 0.4s; }
 .lightbox.is-open { opacity: 1; visibility: visible; transition: opacity 0.35s; }
 .lb-img { max-width: 100%; max-height: 100%; border-radius: 6px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); scale: 0.96; transition: scale 0.5s var(--ease); }
@@ -1107,3 +1114,21 @@ html.pano-open { overflow: hidden; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   body::after { animation: none; }
 }
+.case-links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 24px; }
+/* proceso por pasos */
+.case-steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; padding: 0; list-style: none; counter-reset: none; }
+.case-steps li { display: flex; align-items: center; gap: 8px; }
+.case-steps li + li::before { content: "→"; color: var(--muted); }
+.case-steps a { display: flex; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+.case-steps a b { color: var(--acid); }
+.case-steps a:hover { background: var(--acid); border-color: var(--acid); color: var(--on-acid); }
+.case-steps a:hover b { color: inherit; }
+.case-step { position: sticky; top: 96px; align-self: start; display: grid; gap: 6px; }
+.case-step b { font: 900 clamp(56px, 7vw, 120px)/0.8 var(--display); letter-spacing: -0.06em; color: var(--acid); }
+.case-step span { color: var(--muted); }
+.case-sec.is-step:nth-of-type(even) .case-sec-body { padding-left: clamp(0px, 3vw, 48px); border-left: 1px solid var(--line); }
+@media (max-width: 760px) { .case-step { position: static; display: flex; align-items: baseline; gap: 12px; } .case-step b { font-size: 56px; } }
+.case-links { gap: 12px; }
+.case-links a { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 14px 22px; border: 1px solid var(--acid); border-radius: 999px; font-size: 14px; transition: background 0.3s, color 0.3s; }
+.case-links a:first-child, .case-links a:hover { background: var(--acid); color: var(--on-acid); text-decoration: none; }
+.case-links a:first-child:hover { background: none; color: var(--acid); }

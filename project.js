@@ -12,7 +12,7 @@
   const p = all[i], next = all[(i + 1) % all.length];
   const num = window.CHAPTERS[p.cat];
   // si el proyecto tiene un video real, va arriba del todo (en lugar de la imagen de portada)
-  const heroVideo = p.sections.find(x => x.video?.src || x.video?.youtube);
+  const heroVideo = p.sections.find(x => !x.inline && (x.video?.src || x.video?.youtube));
   const sections = p.sections.filter(x => x !== heroVideo);
   const photos = sections.flatMap(x => x.images || []); // todas las fotos, para el visor
 
@@ -44,9 +44,12 @@
   };
 
   // cada bloque de texto de projects.js → una sección numerada
+  // proceso: secciones con step: n → número grande + barra de pasos clicable
+  const STEP = { es: 'Paso', fr: 'Étape', en: 'Step' };
+  const nSteps = sections.filter(x => x.step).length;
   const section = (s, k) => `
-    <section class="case-sec" data-reveal>
-      <p class="mono case-sec-num">${pad(k + 1)}</p>
+    <section class="case-sec${s.step ? ' is-step' : ''}"${s.step ? ` id="step-${s.step}"` : ''} data-reveal>
+      ${s.step ? `<p class="case-step"><b>${pad(s.step)}</b><span class="mono">${tx(STEP)} ${s.step}/${nSteps}</span></p>` : `<p class="mono case-sec-num">${pad(k + 1)}</p>`}
       <div class="case-sec-body">
         ${s.h ? `<h2>${tx(s.h)}</h2>` : ''}
         ${s.p ? `<p class="case-p">${rx(s.p)}</p>` : ''}
@@ -54,11 +57,13 @@
         ${s.quote ? `<blockquote class="case-quote"><p>« ${tx(s.quote)} »</p>${s.cite ? `<cite class="mono">${tx(s.cite)}</cite>` : ''}</blockquote>` : ''}
         ${s.list ? `<ol class="case-list">${s.list.map(x => `<li><span>${rx(x)}</span></li>`).join('')}</ol>` : ''}
         ${s.cards ? `<div class="case-cards">${s.cards.map(c => `<div class="case-card"><h3>${tx(c.t)}</h3><p>${rx(c.p)}</p></div>`).join('')}</div>` : ''}
+        ${s.steps ? `<ol class="case-steps mono">${sections.filter(x => x.step).map(x => `<li><a href="#step-${x.step}"><b>${pad(x.step)}</b>${tx(x.short)}</a></li>`).join('')}</ol>` : ''}
         ${s.stats ? `<div class="case-stats">${s.stats.map(x => `<div><b>${tx(x.v)}</b><span class="mono">${tx(x.l)}</span></div>`).join('')}</div>` : ''}
         ${s.chips ? `<ul class="case-chips mono">${tr(s.chips).map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
         ${s.video ? video(s.video) : ''}
+        ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}" download>${tx(l.t)} ↓</a>`).join(' ')}</p>` : ''}
         ${s.compare ? `<div class="compare-list">${s.compare.map(compare).join('')}</div>` : ''}
-        ${s.images ? `<div class="case-photos">${s.images.map(photo).join('')}</div>` : ''}
+        ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
         ${s.panos ? `<div class="pano-grid">${s.panos.map(pano).join('')}</div>` : ''}
         ${s.gallery ? `<div class="case-gallery g${s.gallery}">${Array.from({ length: s.gallery }, (_, g) =>
           `<div class="ph ph-gal"><span class="mono">${t('ph.image')} ${pad(g + 1)} ]</span></div>`).join('')}</div>` : ''}
@@ -99,7 +104,7 @@
   // foto: miniatura que abre el visor a pantalla completa
   const photo = x => `
     <button type="button" class="case-photo" data-photo="${photos.indexOf(x)}" data-cursor="view">
-      <img src="${esc(x.src)}" alt="${tx(x.alt)}" loading="lazy">
+      <img src="${esc(tr(x.src))}" alt="${tx(x.alt)}" loading="lazy">
     </button>`;
 
   // foto 360°: tarjeta con el tiny planet girando (lo anima pano.js); al hacer clic se abre el visor
@@ -209,7 +214,7 @@
     let cur = 0, opener = null;
     const show = k => {
       cur = (k + photos.length) % photos.length;
-      img.src = photos[cur].src;
+      img.src = tr(photos[cur].src);
       img.alt = tr(photos[cur].alt);
       cap.textContent = `${pad(cur + 1)} / ${pad(photos.length)} — ${tr(photos[cur].alt)}`;
     };
