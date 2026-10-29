@@ -385,6 +385,7 @@ function initCover() {
   };
   let hover = false, visible = false;
   cover.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return; // en móvil, tocar o deslizar no la congela: sigue en bucle
     const r = cover.getBoundingClientRect();
     hover = true;
     move((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1);

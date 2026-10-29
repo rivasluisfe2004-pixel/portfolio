@@ -14,7 +14,7 @@
   // si el proyecto tiene un video real, va arriba del todo (en lugar de la imagen de portada)
   const heroVideo = p.sections.find(x => !x.inline && (x.video?.src || x.video?.youtube));
   const sections = p.sections.filter(x => x !== heroVideo);
-  const photos = sections.flatMap(x => x.images || []); // todas las fotos, para el visor
+  const photos = sections.flatMap(x => x.images || (x.groups || []).flatMap(g => g.images)); // todas las fotos, para el visor
 
   document.title = `${tr(p.title)} — Luis Rivas`;
   document.querySelector('meta[name="description"]')?.setAttribute('content', tr(p.summary));
@@ -61,9 +61,11 @@
         ${s.stats ? `<div class="case-stats">${s.stats.map(x => `<div><b>${tx(x.v)}</b><span class="mono">${tx(x.l)}</span></div>`).join('')}</div>` : ''}
         ${s.chips ? `<ul class="case-chips mono">${tr(s.chips).map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
         ${s.video ? video(s.video) : ''}
+        ${s.videos ? `<div class="case-videos">${s.videos.map(video).join('')}</div>` : ''}
         ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}"${/^https?:/.test(tr(l.href)) ? ' target="_blank" rel="noopener">' + tx(l.t) + ' ↗' : ' download>' + tx(l.t) + ' ↓'}</a>`).join(' ')}</p>` : ''}
         ${s.compare ? `<div class="compare-list">${s.compare.map(compare).join('')}</div>` : ''}
         ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
+        ${s.groups ? s.groups.map(g => `<div class="case-photos full" style="--cols:${g.cols}">${g.images.map(photo).join('')}</div>`).join('') : ''}
         ${s.panos ? `<div class="pano-grid">${s.panos.map(pano).join('')}</div>` : ''}
         ${s.gallery ? `<div class="case-gallery g${s.gallery}">${Array.from({ length: s.gallery }, (_, g) =>
           `<div class="ph ph-gal"><span class="mono">${t('ph.image')} ${pad(g + 1)} ]</span></div>`).join('')}</div>` : ''}
