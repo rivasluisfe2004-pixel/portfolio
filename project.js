@@ -61,7 +61,7 @@
         ${s.stats ? `<div class="case-stats">${s.stats.map(x => `<div><b>${tx(x.v)}</b><span class="mono">${tx(x.l)}</span></div>`).join('')}</div>` : ''}
         ${s.chips ? `<ul class="case-chips mono">${tr(s.chips).map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
         ${s.video ? video(s.video) : ''}
-        ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}" download>${tx(l.t)} ↓</a>`).join(' ')}</p>` : ''}
+        ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}"${/^https?:/.test(tr(l.href)) ? ' target="_blank" rel="noopener">' + tx(l.t) + ' ↗' : ' download>' + tx(l.t) + ' ↓'}</a>`).join(' ')}</p>` : ''}
         ${s.compare ? `<div class="compare-list">${s.compare.map(compare).join('')}</div>` : ''}
         ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
         ${s.panos ? `<div class="pano-grid">${s.panos.map(pano).join('')}</div>` : ''}

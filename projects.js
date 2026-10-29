@@ -22,7 +22,7 @@ window.PROJECTS = [
 
   /* =================== 01 — WEB / UI =================== */
   {
-    id: 'reservas', cat: 'web', ph: 'w1', url: 'e-llusion — réservation',
+    id: 'reservas', cat: 'web', ph: 'w1', fullPhotos: true, cover: 'assets/img/reservas/index.webp', url: 'e-llusion — réservation',
     title: { es: 'E-LLUSION — reservas', fr: 'E-LLUSION — réservations', en: 'E-LLUSION — bookings' },
     kind: { es: 'aplicación web', fr: 'application web', en: 'web app' },
     summary: {
@@ -54,15 +54,45 @@ window.PROJECTS = [
             p: { es: 'Cuando una sala se llena, las inscripciones se bloquean solas.', fr: 'Quand une salle est pleine, les inscriptions se bloquent automatiquement.', en: 'When a room is full, sign-ups lock automatically.' } },
           { t: { es: 'Filtros de asistentes', fr: 'Filtres visiteurs', en: 'Visitor filters' },
             p: { es: 'Buscar y filtrar asistentes para el control en la puerta.', fr: 'Rechercher et filtrer les visiteurs pour le contrôle à l’entrée.', en: 'Search and filter attendees for door control.' } },
+        ],
+        images: [
+          { src: 'assets/img/reservas/admin-stats.webp', alt: { es: 'Panel admin: personas inscritas por sala y buscador', fr: 'Back-office : inscrits par salle et recherche', en: 'Back office: sign-ups per room and search' } },
+          { src: 'assets/img/reservas/admin-table.webp', alt: { es: 'Tabla de todas las reservas con datos de ejemplo', fr: 'Tableau de toutes les réservations (données de démo)', en: 'Table of every booking with demo data' } },
+        ] },
+      { h: { es: 'Modificar una reserva', fr: 'Modifier une réservation', en: 'Editing a booking' },
+        p: { es: 'Las dos partes pueden cambiar una reserva: el {{admin}} desde su tabla, y el {{visitante}} desde «Ma réservation» con su email y su código. Cada cambio se guarda directamente en la base de datos.',
+             fr: 'Les deux côtés peuvent modifier une réservation : l’{{admin}} depuis son tableau, et le {{visiteur}} depuis « Ma réservation » avec son email et son code. Chaque changement est enregistré directement en base.',
+             en: 'Both sides can change a booking: the {{admin}} from the dashboard table, and the {{visitor}} from “Ma réservation” with their email and code. Every change is saved straight to the database.' },
+        images: [
+          { src: 'assets/img/reservas/admin-edit.webp', alt: { es: 'El admin modifica la reserva de un visitante', fr: 'L’admin modifie la réservation d’un visiteur', en: 'The admin edits a visitor’s booking' } },
+          { src: 'assets/img/reservas/user-edit.webp', alt: { es: 'El visitante cambia su sala u horario con su código', fr: 'Le visiteur change sa salle ou son créneau avec son code', en: 'The visitor changes room or time slot with their code' } },
         ] },
       { h: { es: 'Stack y método', fr: 'Stack et méthode', en: 'Stack & method' },
         list: [
           { es: 'PHP para la lógica del servidor; HTML y CSS para las interfaces.', fr: 'PHP pour la logique serveur ; HTML et CSS pour les interfaces.', en: 'PHP for server logic; HTML and CSS for the interfaces.' },
           { es: 'Base de datos relacional con consultas SQL (varios JOIN entre visitantes, salas y horarios).', fr: 'Base de données relationnelle et requêtes SQL (plusieurs JOIN entre visiteurs, salles et créneaux).', en: 'Relational database with SQL queries (several JOINs across visitors, rooms and time slots).' },
-          { es: 'Maquetas fieles a la charte graphique de la exposición.', fr: 'Maquettes fidèles à la charte graphique de l’exposition.', en: 'Mockups true to the exhibition’s brand guidelines.' },
+          { es: 'Maquetas fieles al manual de marca de la exposición.', fr: 'Maquettes fidèles à la charte graphique de l’exposition.', en: 'Mockups true to the exhibition’s brand guidelines.' },
+          { es: 'Una v2 más dinámica: vídeo de planos de la expo en la portada, glitch en el título, banda con las 12 obras y un loop de vídeo por obra.', fr: 'Une v2 plus dynamique : vidéo de plans de l’expo en accueil, glitch sur le titre, bandeau des 12 œuvres et une boucle vidéo par œuvre.', en: 'A more dynamic v2: a video of expo shots on the home page, a glitching title, a ticker of all 12 works and a video loop for each work.' },
           { es: 'Código en GitHub, desplegado en OVH y mmi-agences; validación W3C, pruebas funcionales y organización en Notion.', fr: 'Code sur GitHub, déployé chez OVH et sur mmi-agences ; validation W3C, tests fonctionnels et organisation sur Notion.', en: 'Code on GitHub, deployed on OVH and mmi-agences; W3C validation, functional tests and Notion for organisation.' },
         ] },
-      { gallery: 2 },
+      { h: { es: 'El sitio', fr: 'Le site', en: 'The site' },
+        images: [
+          { src: 'assets/img/reservas/index.webp', alt: { es: 'Portada del sitio E-LLUSION', fr: 'Accueil du site E-LLUSION', en: 'E-LLUSION home page' } },
+          { src: 'assets/img/reservas/inscription.webp', alt: { es: 'Formulario de reserva: sala, día, horario y plazas restantes', fr: 'Formulaire de réservation : salle, jour, créneau et places restantes', en: 'Booking form: room, day, time slot and places left' } },
+          { src: 'assets/img/reservas/salles.webp', alt: { es: 'Página de las salas y sus obras', fr: 'Page des salles et de leurs œuvres', en: 'Rooms and works page' } },
+        ] },
+      { h: { es: 'La base de datos', fr: 'La base de données', en: 'The database' },
+        p: { es: 'Todo el sitio funciona sobre una base {{MySQL}} que diseñé a partir de nuestro MCD: cuatro tablas unidas por claves foráneas, y un {{trigger}} que genera el código de reserva (tipo ELL-6E8E58) en cuanto alguien se inscribe.',
+             fr: 'Tout le site repose sur une base {{MySQL}} conçue à partir de notre MCD : quatre tables reliées par des clés étrangères, et un {{trigger}} qui génère le code de réservation (type ELL-6E8E58) dès qu’un visiteur s’inscrit.',
+             en: 'The whole site runs on a {{MySQL}} database built from our data model: four tables linked by foreign keys, and a {{trigger}} that generates the booking code (like ELL-6E8E58) as soon as someone signs up.' },
+        cards: [
+          { t: 'utilisateurs', p: { es: 'Nombre, email, perfil y código único de cada visitante.', fr: 'Nom, email, profil et code unique de chaque visiteur.', en: 'Each visitor’s name, email, profile and unique code.' } },
+          { t: 'salles', p: { es: 'Las 4 salas y su aforo.', fr: 'Les 4 salles et leur jauge.', en: 'The 4 rooms and their capacity.' } },
+          { t: 'creneaux', p: { es: 'Los 14 horarios del jueves 18 y el viernes 19 de junio.', fr: 'Les 14 créneaux du jeudi 18 et du vendredi 19 juin.', en: 'The 14 time slots on Thursday 18 and Friday 19 June.' } },
+          { t: 'inscriptions', p: { es: 'Une visitante, sala y horario, con nº de personas y buffet.', fr: 'Relie visiteur, salle et créneau, avec nb de personnes et buffet.', en: 'Links visitor, room and slot, with party size and buffet.' } },
+        ],
+        links: [{ t: { es: 'Probar el sitio', fr: 'Tester le site', en: 'Try the live site' }, href: 'https://ellusion.alwaysdata.net' }, { t: { es: 'Ver el código en GitHub', fr: 'Voir le code sur GitHub', en: 'View the code on GitHub' }, href: 'https://github.com/rivasluisfe2004-pixel/e-llusion-reservations' }] },
+
     ],
   },
   {
