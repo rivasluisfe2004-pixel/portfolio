@@ -1151,3 +1151,50 @@ video.case-video { display: block; width: auto; max-width: 100%; max-height: 85v
   .case-photos[style*="--cols"] { grid-template-columns: repeat(min(var(--cols), 2), 1fr); }
   .case-photos[style*="--cols:2"] { grid-template-columns: 1fr; }
 }
+
+/* capa por capa (portadas): cada capa es un plano 3D del tamaño de la portada */
+.explode { --edge: 0; --pull: 0; height: 450svh; margin-top: 12px; }
+.explode.is-static { height: auto; }
+.ex-sticky { position: sticky; top: 0; display: grid; place-items: center; height: 100svh; perspective: 1800px; }
+.ex-stage { width: min(78vw, 72svh, 640px); aspect-ratio: 1; }
+.ex-stack { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.ex-plane { position: absolute; inset: 0; transform-style: preserve-3d; outline: 1px solid rgb(from var(--acid) r g b / calc(var(--edge) * 0.7)); outline-offset: -1px; }
+.ex-plane:first-child { box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); }
+.ex-plane img { user-select: none; }
+.ex-item { --s: 1; position: absolute; }
+.ex-item .ex-label { transform-origin: left top; scale: calc(1 / var(--s)); }
+.ex-item img { display: block; width: 100%; height: auto; outline: 2px solid rgb(from var(--acid) r g b / var(--pull)); outline-offset: 8px; border-radius: 2px; }
+.ex-plane img.ex-full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ex-label { position: absolute; left: 0; top: 100%; display: flex; gap: 8px; padding: 4px 9px; margin-top: 14px; border-radius: 4px; white-space: nowrap;
+  background: rgba(11, 11, 11, 0.8); color: var(--ink); font-size: 12px; opacity: 0; visibility: hidden; font-size: 15px; }
+.ex-label b { color: var(--acid); font-weight: 400; }
+.ex-label i { font-style: normal; }
+.ex-legend { display: none; }
+@media (max-width: 700px) {
+  .ex-stage { width: min(70vw, 60svh); }
+  .ex-label { font-size: 11px; padding: 2px 5px; margin-top: 10px; }
+  .ex-label i { display: none; }
+  .ex-sticky { grid-template-rows: 1fr auto; padding-bottom: 6svh; }
+  .ex-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; margin: 0; padding: 0 16px; list-style: none; font-size: 11px; color: var(--ink-2); opacity: max(var(--edge), var(--pull)); }
+  .ex-legend b { margin-right: 6px; color: var(--acid); font-weight: 400; }
+}
+
+/* portadas animadas: selector tipo "elige tu personaje" */
+.case-picker { margin: 0 0 clamp(40px, 6vw, 90px); }
+.pick-label { color: var(--acid); margin-bottom: 18px; }
+.picks { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(12px, 1.6vw, 24px); perspective: 900px; }
+.pick { position: relative; display: block; aspect-ratio: 1; transform-style: preserve-3d; }
+.pick-cover { position: absolute; inset: 0; overflow: hidden; border-radius: 6px; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55); transition: box-shadow .3s, opacity .3s; }
+.pick-cover .cover-layer { position: absolute; height: auto; }
+.pick-cover .pick-bg { inset: -4%; width: 108%; }
+.pick-cap { position: absolute; left: 0; top: calc(100% + 10px); display: flex; flex-wrap: wrap; gap: 0 8px; color: var(--ink); }
+.pick-cap b { color: var(--acid); font-weight: 400; }
+.pick-cap i { width: 100%; font-style: normal; color: var(--muted); }
+.picks:has(.is-on) .pick:not(.is-on) .pick-cover { opacity: .45; }
+.pick:hover .pick-cover { opacity: 1 !important; }
+.pick.is-on .pick-cover { box-shadow: 0 0 0 2px var(--acid), 0 24px 50px rgba(0, 0, 0, 0.55); }
+.pick-soon { display: grid; place-content: center; text-align: center; gap: 6px; border: 1px dashed var(--muted); border-radius: 6px; color: var(--muted); opacity: .6; }
+.case-picker { padding-bottom: 50px; }
+@media (max-width: 700px) {
+  .picks { grid-template-columns: repeat(2, 1fr); row-gap: 60px; }
+}

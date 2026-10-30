@@ -12,8 +12,12 @@
   const p = all[i], next = all[(i + 1) % all.length];
   const num = window.CHAPTERS[p.cat];
   // si el proyecto tiene un video real, va arriba del todo (en lugar de la imagen de portada)
-  const heroVideo = p.sections.find(x => !x.inline && (x.video?.src || x.video?.youtube));
-  const sections = p.sections.filter(x => x !== heroVideo);
+  // portadas animadas: elige un álbum (?a=id) y solo se ve ese; sin elegir, solo el selector
+  const albumId = new URLSearchParams(location.search).get('a');
+  const album = p.albums?.find(a => a.id === albumId);
+  const src = p.albums ? album?.sections || [] : p.sections;
+  const heroVideo = p.albums ? null : src.find(x => !x.inline && (x.video?.src || x.video?.youtube));
+  const sections = src.filter(x => x !== heroVideo);
   const photos = sections.flatMap(x => x.images || (x.groups || []).flatMap(g => g.images)); // todas las fotos, para el visor
 
   document.title = `${tr(p.title)} — Luis Rivas`;
@@ -66,6 +70,12 @@
         ${s.compare ? `<div class="compare-list">${s.compare.map(compare).join('')}</div>` : ''}
         ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
         ${s.groups ? s.groups.map(g => `<div class="case-photos full" style="--cols:${g.cols}">${g.images.map(photo).join('')}</div>`).join('') : ''}
+        ${s.layers ? `<div class="explode" data-explode><div class="ex-sticky"><div class="ex-stage"><div class="ex-stack">${s.layers.map((l, k) => {
+          const label = `<span class="ex-label mono"><b>${pad(k + 1)}</b><i>${tx(l.name)}</i></span>`;
+          return `<div class="ex-plane" data-z="${k}">${l.box
+            ? `<div class="ex-item" style="left:${l.box[0]}%;top:${l.box[1]}%;width:${l.box[2]}%"><img src="${esc(l.src)}" alt="" draggable="false">${label}</div>`
+            : `<img class="ex-full" src="${esc(l.src)}" alt="" draggable="false">${label}`}</div>`;
+        }).join('')}</div></div><ol class="ex-legend mono">${s.layers.map((l, k) => `<li><b>${pad(k + 1)}</b>${tx(l.name)}</li>`).join('')}</ol></div></div>` : ''}
         ${s.panos ? `<div class="pano-grid">${s.panos.map(pano).join('')}</div>` : ''}
         ${s.gallery ? `<div class="case-gallery g${s.gallery}">${Array.from({ length: s.gallery }, (_, g) =>
           `<div class="ph ph-gal"><span class="mono">${t('ph.image')} ${pad(g + 1)} ]</span></div>`).join('')}</div>` : ''}
@@ -87,7 +97,7 @@
         <a class="yt-link mono" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${t('yt.link')} ↗</a>`;
     }
     return v?.src
-      ? `<video class="case-video" src="${esc(v.src)}"${v.poster ? ` poster="${esc(v.poster)}"` : ''} controls playsinline preload="metadata"></video>`
+      ? `<video class="case-video" src="${esc(v.src)}"${v.poster ? ` poster="${esc(v.poster)}"` : ''}${v.loop ? ' autoplay muted loop' : ''} controls playsinline preload="metadata"></video>`
       : `<div class="clip-frame ph ph-v1 case-video"><span class="rec mono"><i></i>rec</span><span class="mono">${t('ph.video')}</span></div>`;
   };
 
@@ -119,6 +129,23 @@
       <span class="pano-cta tag-font" aria-hidden="true">${t('pano.enter')}</span>
     </button>`;
 
+  // cada portada en miniatura con el mismo parallax de la home; 5 casillas, las vacías = próximamente
+  const PICK = { es: 'Elige una portada', fr: 'Choisissez une pochette', en: 'Pick a cover' };
+  const SOON = { es: 'próximamente', fr: 'bientôt', en: 'coming soon' };
+  const picker = () => {
+    const slots = [...p.albums, ...Array(Math.max(0, 5 - p.albums.length)).fill(null)];
+    return `<p class="mono pick-label">${tx(PICK)}</p><div class="picks">${slots.map((a, k) => {
+      if (!a) return `<div class="pick pick-soon mono"><span>${pad(k + 1)}</span>${tx(SOON)}</div>`;
+      const ls = a.sections.find(x => x.layers).layers, n = ls.length - 1;
+      return `<a class="pick${a === album ? ' is-on' : ''}" href="project.html?p=${p.id}&a=${a.id}#album" data-cursor="move" aria-label="${esc(a.title)} — ${esc(a.artist)}">
+        <span class="pick-cover">${ls.map((l, j) => l.box
+          ? `<img class="cover-layer" src="${esc(l.src)}" alt="" style="left:${l.box[0]}%;top:${l.box[1]}%;width:${l.box[2]}%" data-depth="${(0.2 + 0.8 * j / n).toFixed(2)}" draggable="false">`
+          : `<img class="cover-layer pick-bg" src="${esc(l.src)}" alt="" data-depth="-0.3" draggable="false">`).join('')}</span>
+        <span class="pick-cap mono"><b>${pad(k + 1)}</b> ${esc(a.title)}<i>${esc(a.artist)}</i></span>
+      </a>`;
+    }).join('')}</div>`;
+  };
+
   $('#case').innerHTML = `
     <header class="case-head">
       <div class="case-top mono">
@@ -136,8 +163,9 @@
         ${p.software ? `<div class="case-sw"><dt>${t('case.software')}</dt><dd>${tx(p.software)}</dd></div>` : ''}
       </dl>
     </header>
-    <div class="case-hero case-${p.cat}" data-reveal>${heroVideo ? video(heroVideo.video) : VISUAL[p.cat]()}</div>
-    <div class="case-body">${sections.map(section).join('')}</div>
+    ${p.albums ? `<div class="case-picker" data-reveal>${picker()}</div>`
+      : `<div class="case-hero case-${p.cat}" data-reveal>${heroVideo ? video(heroVideo.video) : VISUAL[p.cat]()}</div>`}
+    <div class="case-body" id="album">${sections.map(section).join('')}</div>
     <a class="case-next" href="project.html?p=${next.id}" data-curtain="${tx(next.title)}" data-cursor="open">
       <span class="mono">${t('case.next')} →</span>
       <b>${tx(next.title)}</b>
@@ -160,6 +188,20 @@
   document.head.append(ld);
 
   initReveals($('#case'));
+  // selector de portadas: capas que siguen al mouse; solas en bucle si nadie las toca
+  for (const card of document.querySelectorAll('.pick:not(.pick-soon)')) {
+    const layers = [...card.querySelectorAll('[data-depth]')].map(l => [gsap.quickTo(l, 'x', { duration: 1, ease: 'power3' }), gsap.quickTo(l, 'y', { duration: 1, ease: 'power3' }), +l.dataset.depth * 8]);
+    const ry = gsap.quickTo(card, 'rotationY', { duration: 1, ease: 'power3' }), rx = gsap.quickTo(card, 'rotationX', { duration: 1, ease: 'power3' });
+    const move = (nx, ny) => { for (const [x, y, k] of layers) { x(nx * k); y(ny * k); } ry(nx * 12); rx(-ny * 10); };
+    let hover = false, seed = Math.random() * 9;
+    card.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      const r = card.getBoundingClientRect(); hover = true;
+      move((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1);
+    });
+    card.addEventListener('pointerleave', () => (hover = false));
+    if (!reduce) gsap.ticker.add(time => { if (!hover) move(Math.sin(time * 0.6 + seed) * 0.6, Math.cos(time * 0.45 + seed) * 0.45); });
+  }
   window.initPanos?.($('#case'));
   if (photos.length) initLightbox();
   initCompares();
@@ -249,6 +291,59 @@
       else if (e.key === 'ArrowRight') show(cur + 1);
     });
   }
+  // capa por capa, en 3 tiempos:
+  // 1) cada elemento sale de la portada hacia un lado → queda el fondo reconstruido en el centro
+  // 2) vuelven a su sitio mientras todo gira a la vista lateral 3D (capas apiladas)
+  // 3) se cierra en la portada final
+  for (const box of document.querySelectorAll('[data-explode]')) {
+    const stage = box.querySelector('.ex-stage');
+    const stack = box.querySelector('.ex-stack');
+    const planes = [...box.querySelectorAll('.ex-plane')];
+    const items = [...box.querySelectorAll('.ex-item')];
+    const labels = box.querySelectorAll('.ex-label');
+    const gap = () => Math.min(innerWidth, 1100) * 0.085;
+    // casillas alrededor de la portada: a los lados si hay sitio, si no arriba y abajo (móvil)
+    let slots = [];
+    const layout = () => {
+      const S = stage.offsetWidth, side = innerWidth > S * 1.9;
+      const c = items.map((el, i) => ({ i, x: el.offsetLeft + el.offsetWidth / 2, y: el.offsetTop + el.offsetHeight / 2, w: el.offsetWidth, h: el.offsetHeight }));
+      const half = Math.ceil(c.length / 2);
+      const byX = [...c].sort((a, b) => a.x - b.x);
+      const groups = [byX.slice(0, half), byX.slice(half)].map(g => g.sort((a, b) => side ? a.y - b.y : a.x - b.x));
+      slots = [];
+      groups.forEach((g, gi) => g.forEach((e, k) => {
+        const n = g.length, cell = S / n;
+        const tx = side ? (gi ? S * 1.45 : -S * 0.45) : cell * (k + 0.5);
+        const ty = side ? cell * (k + 0.5) : (gi ? S * 1.3 : -S * 0.3);
+        const room = side ? Math.min(S * 0.42, cell * 0.8) : Math.min(cell * 0.8, S * 0.3);
+        slots[e.i] = { x: tx - e.x, y: ty - e.y, scale: Math.min(1, room / Math.max(e.w, e.h)) };
+      }));
+    };
+    layout();
+    addEventListener('resize', layout);
+    const out = (tl, at) => tl
+      .to(stack, { scale: 0.62, duration: 1 }, at)
+      .to(items, { x: i => slots[i].x, y: i => slots[i].y, scale: i => slots[i].scale, '--s': i => slots[i].scale, duration: 1 }, at)
+      .to(box, { '--pull': 1, duration: 0.5 }, at + 0.4)
+      .to(labels, { autoAlpha: 1, stagger: 0.04, duration: 0.3 }, at + 0.5);
+    const stackUp = (tl, at) => tl
+      .to(items, { x: 0, y: 0, scale: 1, '--s': 1, duration: 1 }, at)
+      .to(box, { '--pull': 0, '--edge': 1, duration: 0.6 }, at)
+      .to(stack, { rotateY: -52, rotateX: 8, duration: 1 }, at)
+      .to(planes, { z: (k, el) => (+el.dataset.z - (planes.length - 1) / 2) * gap(), duration: 1 }, at);
+    if (reduce) { box.classList.add('is-static'); stackUp(out(gsap.timeline(), 0), 1).progress(1); continue; }
+    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' },
+      scrollTrigger: { trigger: box, start: 'top top', end: 'bottom bottom', scrub: 1, invalidateOnRefresh: true, onRefreshInit: layout } });
+    out(tl, 0);
+    tl.to({}, { duration: 0.5 });
+    stackUp(tl, 1.5);
+    tl.to({}, { duration: 0.5 })
+      .to(labels, { autoAlpha: 0, duration: 0.3 })
+      .to(box, { '--edge': 0, duration: 0.4 }, '<')
+      .to(planes, { z: 0, duration: 1 }, '<')
+      .to(stack, { rotateY: 0, rotateX: 0, scale: 1, duration: 1 }, '<');
+  }
+
   if (!reduce) {
     gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } })
       .from('.case-title', { yPercent: 30, autoAlpha: 0 })
@@ -260,4 +355,5 @@
   const y = session('scrollY');
   session('scrollY', null);
   if (y) goTo(+y, true);
+  else if (album) setTimeout(() => goTo('#album'), reduce ? 0 : 700); // portada elegida → se revela su proyecto
 })();
