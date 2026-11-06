@@ -19,13 +19,13 @@
     'nav.work':        { es: 'trabajo', fr: 'projets', en: 'work' },
     'nav.about':       { es: 'sobre mí', fr: 'à propos', en: 'about' },
     'nav.contact':     { es: 'contacto', fr: 'contact', en: 'contact' },
-    'nav.status':      { es: 'busco stage · 12 abr → 16 jun 2027', fr: 'recherche de stage · 12 avr → 16 juin 2027', en: 'looking for an internship · 12 apr → 16 jun 2027' },
+    'nav.status':      { es: 'busco pasantía · 12 abr → 16 jun 2027', fr: 'recherche de stage · 12 avr → 16 juin 2027', en: 'looking for an internship · 12 apr → 16 jun 2027' },
 
     'hero.meta':       { es: 'gráfico · UI · video · dron', fr: 'graphisme · UI · vidéo · drone', en: 'graphic · UI · video · drone' },
     'hero.tag':        { es: 'multimedia', fr: 'multimédia', en: 'multimedia' },
     'hero.hint':       { es: 'elige una lata', fr: 'choisissez une bombe', en: 'pick a can' },
     'hero.paint':      { es: 'mueve el mouse para pintar', fr: 'bougez la souris pour peindre', en: 'move your mouse to paint' },
-    'hero.sticker':    { es: '★ busco stage · abr–jun 2027', fr: '★ cherche stage · avr–juin 2027', en: '★ internship · apr–jun 2027' },
+    'hero.sticker':    { es: '★ busco pasantía · abr–jun 2027', fr: '★ cherche stage · avr–juin 2027', en: '★ internship · apr–jun 2027' },
 
     'cat.web':         { es: 'web', fr: 'web', en: 'web' },
     'cat.grafico':     { es: 'gráfico', fr: 'graphisme', en: 'graphic' },
@@ -81,7 +81,7 @@
     'info.from.v':     { es: 'El Salvador → Francia', fr: 'Salvador → France', en: 'El Salvador → France' },
     'info.langs':      { es: 'idiomas', fr: 'langues', en: 'languages' },
     'info.seek':       { es: 'busco', fr: 'je cherche', en: 'looking for' },
-    'info.seek.v':     { es: 'stage de 2 meses · 12 abr → 16 jun 2027', fr: 'stage de 2 mois · 12 avr → 16 juin 2027', en: '2-month internship · 12 apr → 16 jun 2027' },
+    'info.seek.v':     { es: 'pasantía de 2 meses · 12 abr → 16 jun 2027', fr: 'stage de 2 mois · 12 avr → 16 juin 2027', en: '2-month internship · 12 apr → 16 jun 2027' },
 
     'contact.label':   { es: '(07) — contacto', fr: '(07) — contact', en: '(07) — contact' },
     'contact.title':   { es: 'hablemos', fr: 'parlons-en', en: 'let’s talk' },
@@ -156,7 +156,7 @@
                          fr: 'Identité visuelle et affiches (Illustrator, Photoshop), maquettes UI (Figma), sites web (HTML, CSS, JavaScript, PHP/SQL), montage et motion design (Premiere Pro, After Effects, DaVinci Resolve), installations interactives (TouchDesigner), pilotage et montage 360° en drone (DJI Avata 360).',
                          en: 'Visual identity and posters (Illustrator, Photoshop), UI mockups (Figma), websites (HTML, CSS, JavaScript, PHP/SQL), editing and motion design (Premiere Pro, After Effects, DaVinci Resolve), interactive installations (TouchDesigner) and 360° drone flying and editing (DJI Avata 360).' },
     'faq.q3':          { es: '¿Qué busca?', fr: 'Que recherche-t-il ?', en: 'What is he looking for?' },
-    'faq.a3':          { es: 'Un stage de 2 meses, del 12 de abril al 16 de junio de 2027, en diseño gráfico, UI, video o motion design.',
+    'faq.a3':          { es: 'Una pasantía de 2 meses, del 12 de abril al 16 de junio de 2027, en diseño gráfico, UI, video o motion design.',
                          fr: 'Un stage de 2 mois, du 12 avril au 16 juin 2027, en graphisme, UI, vidéo ou motion design.',
                          en: 'A 2-month internship, from 12 April to 16 June 2027, in graphic design, UI, video or motion design.' },
     'faq.q4':          { es: '¿En qué idiomas trabaja?', fr: 'Dans quelles langues travaille-t-il ?', en: 'Which languages does he work in?' },
