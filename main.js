@@ -380,7 +380,7 @@ function initCover() {
     const d = +l.dataset.depth, wrap = l.closest('.pop');
     // la profundidad (Z) va en el envoltorio .pop: así las capas se ordenan bien en 3D aunque el
     // envoltorio recorte (clip-path aplana lo que hay dentro, pero no a él mismo)
-    if (wrap) gsap.set(wrap, { z: d * 16 });
+    if (wrap && !document.documentElement.classList.contains('safari')) gsap.set(wrap, { z: d * 16 });
     return [gsap.quickTo(l, 'x', { duration: 1, ease: 'power3' }), gsap.quickTo(l, 'y', { duration: 1, ease: 'power3' }), d * 11];
   });
   const turnY = gsap.quickTo(cover, 'rotationY', { duration: 1, ease: 'power3' });

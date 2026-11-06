@@ -1205,3 +1205,6 @@ video.case-video { display: block; width: auto; max-width: 100%; max-height: 85v
 
 /* Carteles: la imagen más pequeña, el dibujo de fondo (ph-p*) se ve como marco */
 .poster .ph > img { inset: 7%; width: 86%; height: 86%; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
+
+/* Safari (y todo WebKit): su 3D esconde las capas al girar → allí las capas van en plano (el giro y el parallax siguen) */
+.safari .cover.cover, .safari .cover-pops, .safari .pop, .safari .pick { transform-style: flat; }

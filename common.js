@@ -5,6 +5,8 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Safari/WebKit (también Chrome en iPhone): su 3D esconde capas al girar; style.css las pone en plano
+  if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) document.documentElement.classList.add('safari');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
