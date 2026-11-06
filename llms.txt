@@ -24,7 +24,7 @@ Le site existe en trois langues : français (`?lang=fr`), espagnol (`?lang=es`) 
 
 ### Graphisme
 - [La Pistache d’Or](/project.html?p=pistache) : SAÉ 103, concours « Shiftopie : un lundi en 2050 » de The Shifters. Note d’intention (quoi, pourquoi, pour qui, où, comment, en quoi), concept « L’Or Vert du Rhône », naming, logo (Illustrator), affiche « Plaisir Intemporel » (photomontage Photoshop). Typographie propre en cours.
-- [E-LLUSION — affiche](/project.html?p=ellusion-cartel) et [identité](/project.html?p=ellusion-identidad) : exposition interactive « L’impact du numérique sur notre perception du réel », IUT de Chambéry, juin 2026.
+- [E-LLUSION — affiche et identité](/project.html?p=ellusion) : exposition interactive « L’impact du numérique sur notre perception du réel », IUT de Chambéry, juin 2026.
 - [IMMERSION](/project.html?p=immersion) : identité de marque d’une listening bar (SAÉ 102) — étude de marché, positionnement, storytelling.
 
 ### Vidéo et motion

@@ -27,7 +27,7 @@ const CARD = {
     </a>`,
   video: (p, n, i) => `
     <a class="clip ${i ? 'clip-side' : 'clip-main'}" ${link(p)} data-cursor="play" data-reveal>
-      <div class="clip-frame ph ph-${p.ph}">${media(p)}
+      <div class="clip-frame ph ph-${p.ph}">${media(p)}${p.preview ? `<video class="clip-vid" src="${esc(p.preview)}" muted loop playsinline preload="none"></video>` : ''}
         <span class="rec mono"><i></i>rec</span><span class="tc mono">00:00:00:00</span>
         <span class="play" aria-hidden="true"></span>
       </div>
@@ -333,11 +333,18 @@ function initClips() {
   for (const clip of $$('.clip')) {
     const tc = $('.tc', clip);
     let f = 0, on = false;
-    clip.addEventListener('pointerenter', () => (on = true));
-    clip.addEventListener('pointerleave', () => (on = false));
+    const vid = $('.clip-vid', clip);
+    clip.addEventListener('pointerenter', () => {
+      on = true;
+      if (vid && !reduce) vid.play().then(() => clip.classList.add('is-playing')).catch(() => {});
+    });
+    clip.addEventListener('pointerleave', () => {
+      on = false;
+      if (vid) { vid.pause(); clip.classList.remove('is-playing'); }
+    });
     gsap.ticker.add((time, dt) => {
       if (!on) return;
-      f += dt * 0.024;
+      f = vid && !vid.paused ? vid.currentTime * 24 : f + dt * 0.024;
       tc.textContent = [f / 86400, (f / 1440) % 60, (f / 24) % 60, f % 24].map(pad).join(':');
     });
   }

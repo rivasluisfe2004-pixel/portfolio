@@ -494,8 +494,13 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .ph-p5 { color: var(--bg); background: linear-gradient(160deg, var(--ink) 50%, var(--acid) 50%); }
 
 /* 03 video — sala de edición */
-.video-grid { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(16px, 2vw, 28px); }
+.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: clamp(16px, 2vw, 28px); }
+.video-grid > .clip-main { grid-column: span 2; }
 .clip-side { display: flex; flex-direction: column; }
+/* vista previa: se reproduce al pasar el mouse */
+.clip-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s; }
+.clip.is-playing .clip-vid { opacity: 1; }
+.clip.is-playing .play { opacity: 0; }
 .clip-side .clip-frame { flex: 1; aspect-ratio: auto; min-height: 220px; }
 .clip-frame { aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 8px; transition: border-color 0.4s; }
 .clip:hover .clip-frame { border-color: var(--acid); }
@@ -816,10 +821,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .case-wall {
   display: grid;
   place-items: center;
-  padding: clamp(48px, 7vw, 96px) 0;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: radial-gradient(ellipse at 50% 40%, #1c1c1c, var(--bg) 75%);
+  padding: clamp(24px, 4vw, 48px) 0;
 }
 .case-poster { width: min(360px, 62vw); }
 .case-sec { display: grid; grid-template-columns: minmax(60px, 1fr) minmax(0, 5fr); gap: 24px; padding: clamp(40px, 6vw, 72px) 0; border-top: 1px solid var(--line); }
@@ -1097,6 +1099,8 @@ video.case-video { display: block; width: auto; max-width: 100%; max-height: 85v
   .poster { width: auto; translate: none !important; }
   .wall-tag { font-size: 50vw; }
   .video-grid, .lab, .flights { grid-template-columns: 1fr; }
+  .video-grid { grid-auto-rows: auto; }
+  .video-grid > .clip-main { grid-column: auto; }
   .clip-side .clip-frame { aspect-ratio: 16 / 9; flex: none; }
   .drone-stage { aspect-ratio: 4 / 5; }
   .osd-side, .osd-bottom span:first-child, .osd-top span:nth-child(2) { display: none; }
@@ -1198,3 +1202,6 @@ video.case-video { display: block; width: auto; max-width: 100%; max-height: 85v
 @media (max-width: 700px) {
   .picks { grid-template-columns: repeat(2, 1fr); row-gap: 60px; }
 }
+
+/* Carteles: la imagen más pequeña, el dibujo de fondo (ph-p*) se ve como marco */
+.poster .ph > img { inset: 7%; width: 86%; height: 86%; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
