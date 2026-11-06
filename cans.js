@@ -33,7 +33,7 @@
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMapping = THREE.NeutralToneMapping; // ACES apagaba el verde ácido; Neutral conserva colores vivos
 
     const scene = new THREE.Scene();
     scene.environment = studioEnv(THREE, renderer);
@@ -59,7 +59,9 @@
     const cans = CANS.map((c, i) => {
       const inner = new THREE.Group();
       inner.position.y = -1.03; // pivote en el centro de la lata
-      const band = new THREE.Mesh(bandGeo, new THREE.MeshStandardMaterial({ map: labelTexture(THREE, c, i18n.tr(c.label), renderer), roughness: 0.45 }));
+      const tex = labelTexture(THREE, c, i18n.tr(c.label), renderer);
+      // la etiqueta brilla un poco con sus propios colores: se ve viva aunque le llegue poca luz
+      const band = new THREE.Mesh(bandGeo, new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: 0.35, roughness: 0.45 }));
       band.position.y = 0.95;
       const capMat = c.cap === 'chrome'
         ? new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.13, emissive: ACID, emissiveIntensity: 0 })
