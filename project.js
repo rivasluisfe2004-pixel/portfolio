@@ -67,15 +67,18 @@
         ${s.video ? video(s.video) : ''}
         ${s.videos ? `<div class="case-videos">${s.videos.map(video).join('')}</div>` : ''}
         ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}"${/^https?:/.test(tr(l.href)) ? ' target="_blank" rel="noopener">' + tx(l.t) + ' ↗' : ' download>' + tx(l.t) + ' ↓'}</a>`).join(' ')}</p>` : ''}
-        ${s.compare ? `<div class="compare-list">${s.compare.map(compare).join('')}</div>` : ''}
+        ${s.compare ? `<div class="compare-list"${p.ratio ? ` style="--ar:${p.ratio[0]}/${p.ratio[1]};--k:${p.ratio[0] / p.ratio[1]}"` : ''}>${s.compare.map(compare).join('')}</div>` : ''}
         ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
         ${s.groups ? s.groups.map(g => `<div class="case-photos full" style="--cols:${g.cols}">${g.images.map(photo).join('')}</div>`).join('') : ''}
-        ${s.layers ? `<div class="explode" data-explode><div class="ex-sticky"><div class="ex-stage"><div class="ex-stack">${s.layers.map((l, k) => {
+        ${s.layers ? `<div class="explode" data-explode${p.ratio ? ` style="--ar:${p.ratio[0]}/${p.ratio[1]};--k:${p.ratio[0] / p.ratio[1]}"` : ''}><div class="ex-sticky"><div class="ex-stage"><div class="ex-stack">${s.layers.map((l, k) => {
           const label = `<span class="ex-label mono"><b>${pad(k + 1)}</b><i>${tx(l.name)}</i></span>`;
           return `<div class="ex-plane" data-z="${k}">${l.box
             ? `<div class="ex-item" style="left:${l.box[0]}%;top:${l.box[1]}%;width:${l.box[2]}%"><img src="${esc(l.src)}" alt="" draggable="false">${label}</div>`
             : `<img class="ex-full" src="${esc(l.src)}" alt="" draggable="false">${label}`}</div>`;
         }).join('')}</div></div><ol class="ex-legend mono">${s.layers.map((l, k) => `<li><b>${pad(k + 1)}</b>${tx(l.name)}</li>`).join('')}</ol></div></div>` : ''}
+        ${s.build ? `<div class="build" data-build style="--n:${s.build.length}${p.ratio ? `;--ar:${p.ratio[0]}/${p.ratio[1]};--k:${p.ratio[0] / p.ratio[1]}` : ''}"><div class="bd-sticky"><div class="bd-stage">${s.build.map((l, k) => `<div class="bd-plane">${l.box
+          ? `<img src="${esc(l.src)}" alt="" style="left:${l.box[0]}%;top:${l.box[1]}%;width:${l.box[2]}%" draggable="false">`
+          : `<img class="bd-full" src="${esc(l.src)}" alt="" draggable="false">`}<span class="bd-label mono"><b>${pad(k + 1)}</b> ${tx(l.name)}</span></div>`).join('')}</div><ol class="bd-steps mono">${s.build.map((l, k) => `<li><b>${pad(k + 1)}</b> ${tx(l.name)}</li>`).join('')}</ol></div></div>` : ''}
         ${s.panos ? `<div class="pano-grid">${s.panos.map(pano).join('')}</div>` : ''}
         ${s.gallery ? `<div class="case-gallery g${s.gallery}">${Array.from({ length: s.gallery }, (_, g) =>
           `<div class="ph ph-gal"><span class="mono">${t('ph.image')} ${pad(g + 1)} ]</span></div>`).join('')}</div>` : ''}
@@ -134,9 +137,9 @@
   const SOON = { es: 'próximamente', fr: 'bientôt', en: 'coming soon' };
   const picker = () => {
     const slots = [...p.albums, ...Array(Math.max(0, 5 - p.albums.length)).fill(null)];
-    return `<p class="mono pick-label">${tx(PICK)}</p><div class="picks">${slots.map((a, k) => {
+    return `<p class="mono pick-label">${tx(p.pick || PICK)}</p><div class="picks"${p.ratio ? ` style="--ar:${p.ratio[0]}/${p.ratio[1]}"` : ''}>${slots.map((a, k) => {
       if (!a) return `<div class="pick pick-soon mono"><span>${pad(k + 1)}</span>${tx(SOON)}</div>`;
-      const ls = a.sections.find(x => x.layers).layers, n = ls.length - 1;
+      const ls = (s => s.layers || s.build)(a.sections.find(x => x.layers || x.build)), n = ls.length - 1;
       return `<a class="pick${a === album ? ' is-on' : ''}" href="project.html?p=${p.id}&a=${a.id}#album" data-cursor="move" aria-label="${esc(a.title)} — ${esc(a.artist)}">
         <span class="pick-cover">${ls.map((l, j) => l.box
           ? `<img class="cover-layer" src="${esc(l.src)}" alt="" style="left:${l.box[0]}%;top:${l.box[1]}%;width:${l.box[2]}%" data-depth="${(0.2 + 0.8 * j / n).toFixed(2)}" draggable="false">`
@@ -290,6 +293,28 @@
       else if (e.key === 'ArrowLeft') show(cur - 1);
       else if (e.key === 'ArrowRight') show(cur + 1);
     });
+  }
+  // montaje: cada capa cae desde arriba y rebota → pausa con el póster → se separan en 3D → fin
+  for (const box of document.querySelectorAll('[data-build]')) {
+    const stage = box.querySelector('.bd-stage');
+    const planes = [...box.querySelectorAll('.bd-plane')];
+    const drops = planes.slice(1);
+    const steps = box.querySelectorAll('.bd-steps li');
+    const mark = k => steps.forEach((li, j) => li.classList.toggle('is-on', j <= k));
+    const spread = (tl, at) => tl
+      .to(stage, { rotateY: -52, rotateX: 8, scale: 0.62, duration: 2, ease: 'power2.inOut' }, at)
+      .to(planes, { z: k => (k - (planes.length - 1) / 2) * Math.min(innerWidth, 1100) * 0.075, duration: 2, ease: 'power2.inOut' }, at)
+      .to(box, { '--edge': 1, duration: 1 }, at + 0.6);
+    if (reduce) { mark(steps.length - 1); spread(gsap.timeline(), 0).progress(1); continue; }
+    const STEP = 1.1, end = drops.length * STEP;
+    const tl = gsap.timeline({ scrollTrigger: { trigger: box, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true,
+      onUpdate: () => mark(Math.min(steps.length - 1, Math.round(tl.time() / STEP))) } });
+    drops.forEach((l, k) => tl.fromTo(l, { y: () => -stage.offsetHeight * 1.1, rotation: k % 2 ? 7 : -7, autoAlpha: 0 },
+      { y: 0, rotation: 0, autoAlpha: 1, duration: 1, ease: 'back.out(1.6)' }, k * STEP));
+    tl.to({}, { duration: 2.5 }, end);   // pausa: el póster entero
+    spread(tl, end + 2.5);
+    tl.to({}, { duration: 1.5 });        // pausa final en 3D
+    mark(0);
   }
   // capa por capa, en 3 tiempos:
   // 1) cada elemento sale de la portada hacia un lado → queda el fondo reconstruido en el centro
