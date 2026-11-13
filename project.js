@@ -66,10 +66,12 @@
         ${s.chips ? `<ul class="case-chips mono">${tr(s.chips).map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
         ${s.video ? video(s.video) : ''}
         ${s.videos ? `<div class="case-videos">${s.videos.map(video).join('')}</div>` : ''}
-        ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}"${/^https?:/.test(tr(l.href)) ? ' target="_blank" rel="noopener">' + tx(l.t) + ' ↗' : ' download>' + tx(l.t) + ' ↓'}</a>`).join(' ')}</p>` : ''}
+        ${s.gifs ? `<div class="case-gifs">${s.gifs.map(g => `<figure class="case-gif${g.wide ? ' wide' : ''}"><video src="${esc(g.src)}"${g.poster ? ` poster="${esc(g.poster)}"` : ''} autoplay muted loop playsinline preload="metadata" aria-label="${tx(g.cap)}"></video><figcaption class="mono">${tx(g.cap)}</figcaption></figure>`).join('')}</div>` : ''}
+        ${s.links ? `<p class="case-links">${s.links.map(l => `<a class="yt-link mono" href="${esc(tr(l.href))}"${/^https?:|\.html?(#|$)/.test(tr(l.href)) ? ' target="_blank" rel="noopener">' + tx(l.t) + ' ↗' : ' download>' + tx(l.t) + ' ↓'}</a>`).join(' ')}</p>` : ''}
         ${s.compare ? `<div class="compare-list"${p.ratio ? ` style="--ar:${p.ratio[0]}/${p.ratio[1]};--k:${p.ratio[0] / p.ratio[1]}"` : ''}>${s.compare.map(compare).join('')}</div>` : ''}
-        ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}">${s.images.map(photo).join('')}</div>` : ''}
+        ${s.images ? `<div class="case-photos${p.fullPhotos ? ' full' : ''}${s.source ? ' src' : ''}">${s.images.map(photo).join('')}</div>` : ''}
         ${s.groups ? s.groups.map(g => `<div class="case-photos full" style="--cols:${g.cols}">${g.images.map(photo).join('')}</div>`).join('') : ''}
+        ${s.site ? `<p class="case-site"><a class="btn" href="${esc(tr(s.site.href))}" target="_blank" rel="noopener">${tx(s.site.t)} ↗</a>${s.site.note ? `<span class="mono">${tx(s.site.note)}</span>` : ''}</p>` : ''}
         ${s.layers ? `<div class="explode" data-explode${p.ratio ? ` style="--ar:${p.ratio[0]}/${p.ratio[1]};--k:${p.ratio[0] / p.ratio[1]}"` : ''}><div class="ex-sticky"><div class="ex-stage"><div class="ex-stack">${s.layers.map((l, k) => {
           const label = `<span class="ex-label mono"><b>${pad(k + 1)}</b><i>${tx(l.name)}</i></span>`;
           return `<div class="ex-plane" data-z="${k}">${l.box
@@ -105,16 +107,20 @@
   };
 
   // antes / después: la foto editada encima, recortada por una cortina que se arrastra
-  const compare = x => `
-    <figure class="compare" style="--pos: 50%">
-      <img src="${esc(x.before)}" alt="${tx(x.alt)} — ${t('cmp.before')}" loading="lazy">
-      <img class="compare-after" src="${esc(x.after)}" alt="${tx(x.alt)} — ${t('cmp.after')}" loading="lazy">
-      <span class="compare-tag compare-tag-b mono">${t('cmp.before')}</span>
-      <span class="compare-tag compare-tag-a mono">${t('cmp.after')}</span>
+  // x.tb / x.ta: etiquetas propias (p. ej. «figma» / «web»); si no, antes / después
+  const compare = x => {
+    const b = x.tb ? tx(x.tb) : t('cmp.before'), a = x.ta ? tx(x.ta) : t('cmp.after');
+    return `
+    <figure class="compare" style="--pos: 50%${x.ratio ? `;--ar:${x.ratio[0]}/${x.ratio[1]};--k:${x.ratio[0] / x.ratio[1]}` : ''}">
+      <img src="${esc(x.before)}" alt="${tx(x.alt)} — ${b}" loading="lazy">
+      <img class="compare-after" src="${esc(x.after)}" alt="${tx(x.alt)} — ${a}" loading="lazy">
+      <span class="compare-tag compare-tag-b mono">${b}</span>
+      <span class="compare-tag compare-tag-a mono">${a}</span>
       <span class="compare-line" aria-hidden="true"><i class="tag-font">↔</i></span>
       <input class="compare-range" type="range" min="0" max="100" value="50" step="0.1" aria-label="${t('cmp.label')} — ${tx(x.alt)}">
       <figcaption class="mono">${tx(x.alt)}</figcaption>
     </figure>`;
+  };
 
   // foto: miniatura que abre el visor a pantalla completa
   const photo = x => `

@@ -19,7 +19,7 @@ Le site existe en trois langues : français (`?lang=fr`), espagnol (`?lang=es`) 
 
 ### Web / UI
 - [E-LLUSION — réservations](/project.html?p=reservas) : portail de réservation de l’exposition E-LLUSION (SAÉ 203), codes de réservation uniques, jauge par salle en temps réel, back-office CRUD. PHP, SQL, HTML, CSS, GitHub. Avec Quentin.
-- [Ifone](/project.html?p=ifone) : bannière publicitaire sur Photoshop et site du produit conçu sur Figma.
+- [Ifone](/project.html?p=ifone) : site satirique façon Apple pour un téléphone inutile, de la maquette Figma (8 écrans) au site codé en HTML, CSS et JavaScript sans librairie (R208). Site en ligne : /projects/ifone/index.html
 - [Audit UX](/project.html?p=auditoria) : audit d’un site (SAÉ 101) — cibles, ergonomie, accessibilité, données d’usage, personas et recommandations.
 
 ### Graphisme

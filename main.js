@@ -8,7 +8,7 @@ const tx = v => esc(tr(v));
 
 /* ---------- tarjetas de proyectos (desde projects.js) ---------- */
 const tagline = p => (p.tags || []).map(tx).join(' · ');
-const media = p => (p.cover ? `<img src="${esc(p.cover)}" alt="${tx(p.title)}" loading="lazy">` : '');
+const media = p => (p.cover ? `<img src="${esc(p.cover)}" alt="${tx(p.title)}" loading="lazy"${p.covers ? ` data-covers="${esc(p.covers.join('|'))}"` : ''}>` : '');
 const link = p => `href="project.html?p=${p.id}" data-curtain="${tx(p.title)}"`;
 const CARD = {
   web: (p, n) => `
@@ -264,11 +264,10 @@ function initScroll(cans, droneReady) {
   gsap.matchMedia().add('(min-width: 761px)', () => {
     const track = $('.posters');
     const dist = () => track.scrollWidth - innerWidth;
-    gsap.to(track, {
-      x: () => -dist(),
-      ease: 'none',
-      scrollTrigger: { trigger: '.wall', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true },
-    });
+    const hold = () => innerHeight * 0.6; // al llegar al último póster, la pared se queda quieta un rato antes de soltar
+    gsap.timeline({ scrollTrigger: { trigger: '.wall', start: 'top top', end: () => '+=' + (dist() + hold()), pin: true, scrub: 1, invalidateOnRefresh: true } })
+      .to(track, { x: () => -dist(), ease: 'none', duration: () => dist() })
+      .to({}, { duration: () => hold() });
   });
 
   // hero: las latas salen volando y el nombre sube
@@ -492,3 +491,13 @@ session('scrollY', null);
 if (y) goTo(+y, true);
 else if (location.hash) goTo(location.hash, true);
 })();
+
+// series: la portada va alternando entre sus pósters mientras se ve (cada 2/3 s); se busca en cada vuelta porque las tarjetas se pueden volver a pintar
+setInterval(() => {
+  for (const img of document.querySelectorAll('img[data-covers]')) {
+    const r = img.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight || !r.width) continue;
+    const list = img.dataset.covers.split('|');
+    img.src = list[(list.indexOf(img.getAttribute('src')) + 1) % list.length];
+  }
+}, 666);
