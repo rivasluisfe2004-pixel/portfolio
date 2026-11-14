@@ -155,6 +155,17 @@
     }).join('')}</div>`;
   };
 
+  // dock tipo macOS con los programas detectados en "software" + "tags", iconos en ácido con relieve (como el banner de LinkedIn)
+  const TOOLS = [[/photoshop/i, 'adobephotoshop', 'Photoshop'], [/illustrator/i, 'adobeillustrator', 'Illustrator'],
+    [/after effects/i, 'adobeaftereffects', 'After Effects'], [/premiere/i, 'adobepremierepro', 'Premiere Pro'],
+    [/figma/i, 'figma', 'Figma'], [/touchdesigner/i, 'touchdesigner', 'TouchDesigner'], [/mediapipe/i, 'mediapipe', 'MediaPipe'],
+    [/dji studio/i, 'djistudio', 'DJI Studio'], [/avata/i, 'dji', 'DJI Avata 360'], [/insta360/i, 'insta360studio', 'Insta360 Studio'],
+    [/vs code/i, 'visualstudiocode', 'VS Code'], [/html/i, 'html5', 'HTML'], [/css/i, 'css', 'CSS'], [/\bjs\b|javascript/i, 'javascript', 'JavaScript'],
+    [/php/i, 'php', 'PHP'], [/sql/i, 'mysql', 'SQL'], [/github/i, 'github', 'GitHub'], [/claude/i, 'claude', 'Claude']];
+  const used = [tr(p.software || ''), ...(p.tags || []).map(tr), p.cat === 'web' ? 'claude' : ''].join(' '); // en web, Claude ayudó con el código
+  const dock = TOOLS.filter(([re]) => re.test(used))
+    .map(([, f, n]) => `<li data-n="${n}"><i style="-webkit-mask-image:url(assets/tools/${f}.svg);mask-image:url(assets/tools/${f}.svg)" role="img" aria-label="${n}"></i></li>`).join('');
+
   $('#case').innerHTML = `
     <header class="case-head">
       <div class="case-top mono">
@@ -171,6 +182,7 @@
         <div><dt>${t('case.tools')}</dt><dd>${(p.tags || []).map(tx).join(' · ')}</dd></div>
         ${p.software ? `<div class="case-sw"><dt>${t('case.software')}</dt><dd>${tx(p.software)}</dd></div>` : ''}
       </dl>
+      ${dock ? `<ul class="dock" data-reveal>${dock}</ul>` : ''}
     </header>
     ${p.albums ? `<div class="case-picker" data-reveal>${picker()}</div>`
       : `<div class="case-hero case-${p.cat}" data-reveal>${heroVideo ? video(heroVideo.video) : VISUAL[p.cat]()}</div>`}

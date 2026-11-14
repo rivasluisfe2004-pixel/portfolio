@@ -1271,3 +1271,15 @@ video.case-video { display: block; width: auto; max-width: 100%; max-height: 85v
 .page-legal .nav-logo { width: 150px; height: 32px; font-size: 0; color: transparent; text-shadow: none; background: url(assets/img/chrome/luisrivas.webp) left center / contain no-repeat; }
 @media (max-width: 700px) { .page-legal .nav-logo { width: 116px; height: 25px; } }
 .chrome-sign { display: block; width: min(240px, 50vw); margin: 40px auto 60px; opacity: 0.35; }
+
+/* dock de herramientas (página de proyecto) — barra tipo macOS, iconos ácido con relieve */
+.dock { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; width: max-content; max-width: 100%; list-style: none; margin: 28px 0 0; padding: 12px 18px; border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.04); backdrop-filter: blur(12px); }
+.dock li { position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: var(--bg-2); transition: transform .35s var(--ease); transform-origin: bottom; filter: drop-shadow(0 1px 0 #5c7a12) drop-shadow(0 1px 0 #4a6310) drop-shadow(0 1px 0 #384b0c) drop-shadow(0 6px 8px rgba(0,0,0,.5)); }
+.dock i { width: 26px; height: 26px; background: var(--acid); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+.dock li:hover { transform: scale(1.45) translateY(-4px); z-index: 1; }
+.dock li:has(+ li:hover), .dock li:hover + li { transform: scale(1.18); }
+.dock li::after { content: attr(data-n); position: absolute; bottom: calc(100% + 10px); left: 50%; translate: -50% 4px; padding: 4px 9px; border-radius: 8px; background: var(--acid); color: var(--on-acid); font: 10px/1.2 var(--mono); white-space: nowrap; opacity: 0; pointer-events: none; transition: .2s; scale: .69; }
+.dock li:hover::after { opacity: 1; translate: -50% 0; }
+@media (prefers-reduced-motion: reduce) { .dock li { transition: none; } }
+.dock { padding-bottom: 22px; }
+.dock li::before { content: ""; position: absolute; bottom: -13px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--acid); opacity: .8; } /* puntito de "app abierta" */
