@@ -55,18 +55,18 @@
 }
 </script>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="style.css?v=20261114d">
+<link rel="stylesheet" href="style.css?v=20261115d">
 <!-- 'three' para los módulos que lo importan por nombre (el cargador del modelo 3D del dron) -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" } }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
-<script defer src="i18n.js?v=20261114d"></script>
-<script defer src="projects.js?v=20261114d"></script>
-<script defer src="common.js?v=20261114d"></script>
-<script defer src="cans.js?v=20261114d"></script>
-<script defer src="drone.js?v=20261114d"></script>
-<script defer src="main.js?v=20261114d"></script>
+<script defer src="i18n.js?v=20261115d"></script>
+<script defer src="projects.js?v=20261115d"></script>
+<script defer src="common.js?v=20261115d"></script>
+<script defer src="cans.js?v=20261115d"></script>
+<script defer src="drone.js?v=20261115d"></script>
+<script defer src="main.js?v=20261115d"></script>
 <noscript><style>.loader{display:none} html.is-loading{overflow:auto}</style></noscript>
 </head>
 <body>
@@ -154,7 +154,7 @@
 
   <!-- ============ INTRO ============ -->
   <section class="manifesto" data-hud="hud.intro">
-    <p class="mono label">(00) — intro</p>
+    <p class="mono label">intro</p>
     <p class="manifesto-text" data-i18n="intro.text"></p>
   </section>
 
@@ -317,18 +317,6 @@
     </div>
   </section>
 
-  <!-- ============ PREGUNTAS RÁPIDAS (también como datos FAQPage para Google y las IA) ============ -->
-  <section class="faq" id="faq" data-hud="faq.title">
-    <p class="mono label" data-i18n="faq.label"></p>
-    <h2 class="faq-title" data-i18n="faq.title"></h2>
-    <div class="faq-list">
-      <details data-reveal><summary data-i18n="faq.q1"></summary><p data-i18n="faq.a1"></p></details>
-      <details data-reveal><summary data-i18n="faq.q2"></summary><p data-i18n="faq.a2"></p></details>
-      <details data-reveal><summary data-i18n="faq.q3"></summary><p data-i18n="faq.a3"></p></details>
-      <details data-reveal><summary data-i18n="faq.q4"></summary><p data-i18n="faq.a4"></p></details>
-      <details data-reveal><summary data-i18n="faq.q5"></summary><p data-i18n="faq.a5"></p></details>
-    </div>
-  </section>
 
   <!-- ============ CONTACTO ============ -->
   <section class="contact" id="contacto" data-hud="hud.contact">
@@ -337,6 +325,7 @@
       <h2 class="contact-title" data-reveal data-i18n="contact.title"></h2>
       <span class="contact-tag tag-font" aria-hidden="true" data-i18n="contact.tag"></span>
     </div>
+    <svg class="badge" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="badge-c" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#badge-c" data-i18n="badge.txt"></textPath></text><image class="badge-lr" href="assets/logo-lr.svg" x="38" y="38" width="124" height="124"/></svg>
     <p><a class="contact-mail" href="mailto:rivasluisfe2004@gmail.com" data-cursor="write">rivasluisfe2004@gmail.com</a></p>
     <ul class="socials mono">
       <li><a href="https://www.linkedin.com/in/luis-felipe-rivas-pineda-b7a789389/" target="_blank" rel="noopener">linkedin ↗</a></li>
@@ -347,6 +336,8 @@
   </section>
 </main>
 
+<!-- TEST offbeat --><canvas class="offbeat-test" aria-hidden="true"></canvas><script defer src="test-offbeat/offbeat.js"></script><!-- /TEST offbeat -->
+<div class="giant tag-font" aria-hidden="true"><span style="--i:0">l</span><span style="--i:1">u</span><span style="--i:2">i</span><span style="--i:3">s</span><span style="--i:4">&nbsp;</span><span style="--i:5">r</span><span style="--i:6">i</span><span style="--i:7">v</span><span style="--i:8">a</span><span style="--i:9">s</span></div>
 <footer class="footer mono">
   <span>© 2026 Luis Rivas</span>
   <span data-i18n="footer.made"></span>

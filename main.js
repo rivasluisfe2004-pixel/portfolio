@@ -422,27 +422,9 @@ function initCover() {
   }
 }
 
-// preguntas rápidas → datos estructurados FAQPage (Google y las IA), en el idioma actual
-function faqSchema() {
-  const ld = document.createElement('script');
-  ld.type = 'application/ld+json';
-  ld.textContent = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    inLanguage: document.documentElement.lang,
-    mainEntity: [1, 2, 3, 4, 5].map(n => ({
-      '@type': 'Question',
-      name: t(`faq.q${n}`),
-      acceptedAnswer: { '@type': 'Answer', text: t(`faq.a${n}`) },
-    })),
-  });
-  document.head.append(ld);
-}
-
 /* ---------- arranque ---------- */
 renderProjects();
 fillTapes();
-faqSchema();
 const spray = initSpray($('.hero-spray'), $('.hero'));
 prepDoodles();
 initClips();
@@ -501,3 +483,7 @@ setInterval(() => {
     img.src = list[(list.indexOf(img.getAttribute('src')) + 1) % list.length];
   }
 }, 666);
+
+// nombre gigante del final: las letras suben una a una cuando entra en pantalla
+const giant = document.querySelector('.giant');
+if (giant) new IntersectionObserver(([e]) => giant.classList.toggle('is-in', e.isIntersecting), { threshold: 0.4 }).observe(giant);

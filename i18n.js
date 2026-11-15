@@ -63,7 +63,7 @@
     'drone.scroll':    { es: 'haz scroll para despegar', fr: 'scrollez pour décoller', en: 'scroll to take off' },
 
     'about.title':     { es: 'sobre mí', fr: 'à propos', en: 'about' },
-    'about.label':     { es: '(05) — quién soy', fr: '(05) — qui je suis', en: '(05) — who I am' },
+    'about.label':     { es: 'quién soy', fr: 'qui je suis', en: 'who I am' },
     'about.lead':      { es: 'hola, soy {{Luis Rivas}}', fr: 'salut, moi c’est {{Luis Rivas}}', en: 'hi, I’m {{Luis Rivas}}' },
     'about.bio':       { es: 'Salvadoreño, estudiante de BUT MMI en el IUT de Chambéry. Me muevo entre el diseño gráfico, las interfaces, el video y los drones — y ahora me estoy metiendo de lleno en el motion design. Antes de diseñar una respuesta, me gusta entender bien el problema.',
                          fr: 'Salvadorien, étudiant en BUT MMI à l’IUT de Chambéry. Je navigue entre le graphisme, les interfaces, la vidéo et le drone — et je me lance maintenant à fond dans le motion design. Avant de dessiner une réponse, j’aime bien comprendre le problème.',
@@ -84,7 +84,7 @@
     'info.seek':       { es: 'busco', fr: 'je cherche', en: 'looking for' },
     'info.seek.v':     { es: 'pasantía de 2 meses · 12 abr → 16 jun 2027', fr: 'stage de 2 mois · 12 avr → 16 juin 2027', en: '2-month internship · 12 apr → 16 jun 2027' },
 
-    'contact.label':   { es: '(07) — contacto', fr: '(07) — contact', en: '(07) — contact' },
+    'contact.label':   { es: 'contacto', fr: 'contact', en: 'contact' },
     'contact.title':   { es: 'hablemos', fr: 'parlons-en', en: 'let’s talk' },
     'contact.tag':     { es: '¿un café?', fr: 'un café ?', en: 'coffee?' },
     'contact.cv':      { es: 'descargar cv ↓', fr: 'télécharger le cv ↓', en: 'download cv ↓' },
@@ -92,6 +92,7 @@
     'footer.made':     { es: 'hecho con html, css, js, three.js y gsap', fr: 'fait avec html, css, js, three.js et gsap', en: 'built with html, css, js, three.js and gsap' },
     'footer.legal':    { es: 'aviso legal', fr: 'mentions légales', en: 'legal notice' },
     'top.label':       { es: 'Volver arriba', fr: 'Revenir en haut', en: 'Back to top' },
+    'badge.txt':       { es: 'pasantía 2027 · gráfico · motion · web · ', fr: 'stage 2027 · graphisme · motion · web · ', en: 'internship 2027 · graphic · motion · web · ' },
     'footer.top':      { es: 'volver arriba ↑', fr: 'haut de page ↑', en: 'back to top ↑' },
 
     'hud.home':        { es: 'inicio', fr: 'accueil', en: 'home' },
@@ -144,26 +145,6 @@
     'lb.next':         { es: 'Foto siguiente', fr: 'Photo suivante', en: 'Next photo' },
     'case.next':       { es: 'siguiente proyecto', fr: 'projet suivant', en: 'next project' },
     'case.more':       { es: '[más detalles muy pronto]', fr: '[plus de détails très bientôt]', en: '[more details very soon]' },
-
-    // preguntas rápidas (también salen como datos estructurados FAQPage para Google y las IA)
-    'faq.title':       { es: 'preguntas rápidas', fr: 'questions rapides', en: 'quick questions' },
-    'faq.label':       { es: '(06) — faq', fr: '(06) — faq', en: '(06) — faq' },
-    'faq.q1':          { es: '¿Quién es Luis Rivas?', fr: 'Qui est Luis Rivas ?', en: 'Who is Luis Rivas?' },
-    'faq.a1':          { es: 'Un estudiante salvadoreño de BUT MMI (Métiers du Multimédia et de l’Internet) en el IUT de Chambéry, en Francia. Perfil multidisciplinar: diseño gráfico, UI, video, motion design y dron.',
-                         fr: 'Un étudiant salvadorien en BUT MMI (Métiers du Multimédia et de l’Internet) à l’IUT de Chambéry, en France. Profil pluridisciplinaire : graphisme, UI, vidéo, motion design et drone.',
-                         en: 'A Salvadoran student in the BUT MMI (Métiers du Multimédia et de l’Internet) at the IUT de Chambéry, France. A multidisciplinary profile: graphic design, UI, video, motion design and drone.' },
-    'faq.q2':          { es: '¿Qué sabe hacer?', fr: 'Que sait-il faire ?', en: 'What can he do?' },
-    'faq.a2':          { es: 'Identidad visual y carteles (Illustrator, Photoshop), maquetas UI (Figma), sitios web (HTML, CSS, JavaScript, PHP/SQL), montaje y motion design (Premiere Pro, After Effects, DaVinci Resolve), instalaciones interactivas (TouchDesigner) y vuelo y edición 360° con dron (DJI Avata 360).',
-                         fr: 'Identité visuelle et affiches (Illustrator, Photoshop), maquettes UI (Figma), sites web (HTML, CSS, JavaScript, PHP/SQL), montage et motion design (Premiere Pro, After Effects, DaVinci Resolve), installations interactives (TouchDesigner), pilotage et montage 360° en drone (DJI Avata 360).',
-                         en: 'Visual identity and posters (Illustrator, Photoshop), UI mockups (Figma), websites (HTML, CSS, JavaScript, PHP/SQL), editing and motion design (Premiere Pro, After Effects, DaVinci Resolve), interactive installations (TouchDesigner) and 360° drone flying and editing (DJI Avata 360).' },
-    'faq.q3':          { es: '¿Qué busca?', fr: 'Que recherche-t-il ?', en: 'What is he looking for?' },
-    'faq.a3':          { es: 'Una pasantía de 2 meses, del 12 de abril al 16 de junio de 2027, en diseño gráfico, UI, video o motion design.',
-                         fr: 'Un stage de 2 mois, du 12 avril au 16 juin 2027, en graphisme, UI, vidéo ou motion design.',
-                         en: 'A 2-month internship, from 12 April to 16 June 2027, in graphic design, UI, video or motion design.' },
-    'faq.q4':          { es: '¿En qué idiomas trabaja?', fr: 'Dans quelles langues travaille-t-il ?', en: 'Which languages does he work in?' },
-    'faq.a4':          { es: 'Español (lengua materna), francés e inglés.', fr: 'Espagnol (langue maternelle), français et anglais.', en: 'Spanish (native), French and English.' },
-    'faq.q5':          { es: '¿Cómo contactarlo?', fr: 'Comment le contacter ?', en: 'How can I contact him?' },
-    'faq.a5':          { es: 'Por email en rivasluisfe2004@gmail.com, o por LinkedIn e Instagram.', fr: 'Par e-mail à rivasluisfe2004@gmail.com, ou via LinkedIn et Instagram.', en: 'By email at rivasluisfe2004@gmail.com, or through LinkedIn and Instagram.' },
 
     // política de confidencialidad (privacy.html)
     'footer.privacy':  { es: 'confidencialidad', fr: 'confidentialité', en: 'privacy' },

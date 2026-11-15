@@ -164,7 +164,7 @@
     [/php/i, 'php', 'PHP'], [/sql/i, 'mysql', 'SQL'], [/github/i, 'github', 'GitHub'], [/claude/i, 'claude', 'Claude']];
   const used = [tr(p.software || ''), ...(p.tags || []).map(tr), p.cat === 'web' ? 'claude' : ''].join(' '); // en web, Claude ayudó con el código
   const dock = TOOLS.filter(([re]) => re.test(used))
-    .map(([, f, n]) => `<li data-n="${n}"><i style="-webkit-mask-image:url(assets/tools/${f}.svg);mask-image:url(assets/tools/${f}.svg)" role="img" aria-label="${n}"></i></li>`).join('');
+    .map(([, f, n]) => `<li data-n="${n}"><svg viewBox="0 0 24 24" role="img" aria-label="${n}"><path d="${window.TOOL_ICONS[f]}"/></svg></li>`).join('');
 
   $('#case').innerHTML = `
     <header class="case-head">
